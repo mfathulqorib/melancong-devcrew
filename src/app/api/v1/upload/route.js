@@ -14,8 +14,6 @@ export async function POST(req) {
             Dir: directory
         })
     } catch (error) {
-        console.log(process.env.AWS_ACCESS_KEY_ID)
-        console.log(process.env.AWS_SECRET_ACCESS_KEY)
         console.log(error)
     }
 
