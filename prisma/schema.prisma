@@ -13,24 +13,34 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid()) // Primary key yang jadi index
-  userName  String   @unique
+  username  String   @unique
   name      String
   email     String   @unique // !index
   password  String
   avatar    String
-  roleId    String   @unique 
+  roleId    String   @default("31c7ae50-689a-41e6-a10b-ec322010cead")
   role      Role     @relation(fields: [roleId], references: [id])
+  bio String
+  token TokenEmail? 
+  isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([email])
-  @@index([userName])
+  @@index([username])
 }
 
 model Role {
   id   String @id @default(uuid())
-  user User?
+  user User []
   name String
+}
+
+model TokenEmail{
+  id String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId],references: [id])
+
 }
 
 
