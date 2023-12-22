@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import prisma from "@/utils/prisma";
 
 export async function POST(req) {
-  const { firstName, lastName, username, email, password } = await req.json();
+  const { username, name, email, password, roleId, bio, avatar } =
+    await req.json();
 
   try {
     // Create hashed password
@@ -12,10 +13,11 @@ export async function POST(req) {
     // Create user to database
     const createUser = await prisma.user.create({
       data: {
-        firstName,
-        lastName,
         username,
+        name,
         email,
+        roleId,
+        bio,
         password: hashedPassword,
       },
     });
