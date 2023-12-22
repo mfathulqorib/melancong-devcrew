@@ -6,15 +6,33 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Users {
-  id       String @id @default(uuid()) // Primary key yang jadi index
-  email    String @unique // !index
-  name     String
-  password String
+model User {
+  id        String   @id @default(uuid()) // Primary key yang jadi index
+  userName  String   @unique
+  name      String
+  email     String   @unique // !index
+  password  String
+  avatar    String
+  roleId    String   @unique 
+  role      Role     @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([email])
+  @@index([userName])
 }
+
+model Role {
+  id   String @id @default(uuid())
+  user User?
+  name String
+}
+
+
+
+
