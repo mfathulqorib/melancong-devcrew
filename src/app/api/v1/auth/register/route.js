@@ -61,7 +61,10 @@ export async function POST(req) {
       return res.json({ error: `failed create Token verify user, ${error}` }, { status: 500 });
     }
 
-    const dataEmail = await resend.emails.send(mailData);
+    const sendEmail = await resend.emails.send(mailData);
+    if (sendEmail.error) {
+      return res.json({ error: `failed sending email, ${sendEmail.error}` }, { status: 500 });
+    }
 
     return res.json({ data: { createUser, createTokenEmail }, message: "user create success" }, { status: 200 });
   } catch (error) {
