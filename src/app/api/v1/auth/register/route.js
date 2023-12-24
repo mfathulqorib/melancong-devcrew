@@ -1,53 +1,81 @@
-import { NextResponse as res } from "next/server";
-import bcrypt from "bcrypt";
+import { EmailTheme } from "@/components/EmailTheme";
 import prisma from "@/utils/prisma";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
+import { NextResponse as res } from "next/server";
+import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_KEY);
 
 export async function POST(req) {
-  const { username, name, email, password, roleId, bio, avatar } =
-    await req.json();
-
+  const { username, name, email, password, roleId, bio, isVerified, avatar } = await req.json();
   const token = crypto.randomBytes(16).toString("hex");
-  console.log("token", token);
+  const mailData = {
+    from: process.env.RESEND_EMAIL,
+    to: [email],
+    subject: "Verify your email for Melancong",
+    react: EmailTheme({ name: name, token: token }),
+  };
 
-  // try {
-  //   // Create hashed password
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-  //   // Create user to database
-  //   const createUser = await prisma.user.create({
-  //     data: {
-  //       username,
-  //       name,
-  //       email,
-  //       roleId,
-  //       bio,
-  //       avatar,
-  //       password: hashedPassword,
-  //     },
-  //   });
+  try {
+    if (!email) {
+      return res.json({ error: "Email is Required" }, { status: 400 });
+    }
 
-  //   return res.json(
-  //     { data: createUser, message: "User created successfully" },
-  //     { status: 201 }
-  //   );
-  // } catch (error) {
-  //   console.log(error);
-  //   return res.json(
-  //     { errorMessage: "Something went wrong. Please try again later" },
-  //     { status: 500 }
-  //   );
-  // }
+    const data = {
+      username,
+      name,
+      email,
+      password: await bcrypt.hash(password, 10),
+      roleId,
+      bio,
+      avatar,
+      isVerified,
+    };
+
+    // ceate user data
+    const createUser = await prisma.user.create({
+      data: {
+        username,
+        name,
+        email,
+        password: await bcrypt.hash(password, 10),
+        roleId,
+        bio,
+        avatar,
+        isVerified,
+      },
+    });
+
+    if (!createUser) {
+      return res.json({ error: `failed create user, ${error}` }, { status: 500 });
+    }
+    // create token for verified email
+    const createTokenEmail = await prisma.tokenEmail.create({
+      data: {
+        token,
+        userId: createUser.id,
+      },
+    });
+
+    if (!createTokenEmail) {
+      return res.json({ error: `failed create Token verify user, ${error}` }, { status: 500 });
+    }
+
+    const dataEmail = await resend.emails.send(mailData);
+
+    return res.json({ data: { createUser, createTokenEmail }, message: "user create success" }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
 }
 
 export async function GET() {
   try {
     const users = await prisma.user.findMany();
-    return Response.json({ data: users, message: "success" }, { status: 200 });
+    return res.json({ data: users, message: "success" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return res.json(
-      { errorMessage: "Something went wrong. Please try again later" },
-      { status: 500 }
-    );
+    return res.json({ errorMessage: "Something went wrong. Please try again later" }, { status: 500 });
   }
 }

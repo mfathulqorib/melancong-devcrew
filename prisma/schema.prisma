@@ -18,8 +18,8 @@ model User {
   email     String   @unique // !index
   password  String
   avatar    String
-  roleId    String   @default("31c7ae50-689a-41e6-a10b-ec322010cead")
-  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    String   @default("4212ganteng-45-u53r")
+  role      Role     @relation(fields: [roleId], references: [id],onDelete: Cascade,onUpdate: Cascade)
   bio String
   token TokenEmail? 
   isVerified Boolean @default(false)
@@ -32,8 +32,8 @@ model User {
 
 model Role {
   id   String @id @default(uuid())
-  user User []
   name String
+  user User []
    createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -42,7 +42,7 @@ model TokenEmail{
   id String @id @default(uuid())
   token String
   userId String @unique
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade,onUpdate: Cascade)
  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

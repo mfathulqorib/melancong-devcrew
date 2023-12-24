@@ -1,22 +1,21 @@
+import { Button } from "@nextui-org/react";
 import React from "react";
 
-export const EmailTheme = ({ name, link }) => {
+export const EmailTheme = ({ name, token }) => {
   const appName = process.env.APP_NAME;
   return (
     <div>
-      <div class="">
+      <div>
         <h1>Dear {name},</h1>
         <p>
           You have successfully created an account at {appName} for your
           business.
         </p>
 
-        <p style="padding:0;margin:0">
-          To complete your registration, please do the following:
-        </p>
+        <p>To complete your registration, please do the following:</p>
         <ul>
           <li>
-            <span class="il">Verify</span> your {appName} account by clicking
+            <span className="">Verify</span> your {appName} account by clicking
             the link below.
           </li>
           <li>
@@ -26,15 +25,15 @@ export const EmailTheme = ({ name, link }) => {
           </li>
         </ul>
 
-        <Button color="secondary">
+        <button>
           <a
-            class="bgs"
+            className=""
             href={`${process.env.BASE_URL}/confirmation?confirmation_token=${token}`}
             target="_blank"
           >
-            <span class="il">Verify</span> and complete registration
+            <span className="">Verify</span> and complete registration
           </a>
-        </Button>
+        </button>
 
         <p>
           For any questions or further information, please contact us at{" "}
