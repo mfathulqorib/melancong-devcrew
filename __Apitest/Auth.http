@@ -1,6 +1,20 @@
-###Register
+### Register
 
 POST   http://localhost:3000/api/v1/auth/register
+
+{
+    "username":"rusli",
+    "name":"rusli efendi",
+    "email":"rusli@mail.com",
+    "password":"password",
+    "roleId":"31c7ae50-689a-41e6-a10b-ec322010cead",
+    "bio":"lajang",
+    "avatar":"rusli.jpeg"
+
+}
+### Email confirmation user
+
+PATCH    http://localhost:3000/api/v1/auth/confirmation?user=4212ganteng&token=male
 
 {
     "username":"rusli",
