@@ -7,11 +7,18 @@ export async function PATCH(req) {
   const token = searchParams.get("token");
 
   try {
-    const findUser = await prisma.user.findUnique({
+    console.log({ token });
+    console.log({ user });
+    const gettoken = await prisma.tokenEmail.findMany();
+
+    const findUser = await prisma.tokenEmail.findUnique({
       where: {
-        id: user,
+        token,
+        userId: user,
       },
     });
+
+    return res.json({ data: findUser, alltoken: gettoken });
   } catch (error) {
     console.log(error);
     return res.json({ error: "Something went wrong. Please try again later", error }, { status: 500 });
