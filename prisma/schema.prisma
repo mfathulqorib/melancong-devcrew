@@ -22,6 +22,7 @@ model User {
   role       Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bio        String
   token      TokenEmail?
+  post Post[]
   category  Category[]
   isVerified Boolean     @default(false)
   createdAt  DateTime    @default(now())
@@ -57,6 +58,26 @@ model Category {
   image     String
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+
+model Post {
+  id String @id @default(uuid())
+  title String
+  desc String
+  budget Int 
+  slug String
+  office_hours String
+  latitude String
+  longitude String
+  address String
+  city  String
+  userId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId   String
+  category Category @relation(fields: [categoryId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+
 }
