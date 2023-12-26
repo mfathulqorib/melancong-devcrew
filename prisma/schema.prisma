@@ -70,7 +70,7 @@ model Post {
   desc String
   budget Int 
   slug String
-  office_hours String
+  officeHours String
   latitude String
   longitude String
   address String
