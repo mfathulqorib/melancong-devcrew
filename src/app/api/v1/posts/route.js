@@ -36,6 +36,14 @@ export async function POST(req) {
         city,
       },
     });
+
+    // make relation post_category
+    categories.forEach(async (category) => {
+      const postCategory = await prisma.postCategory.create({
+        postId: createPost.id,
+        categoryId: category,
+      });
+    });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
