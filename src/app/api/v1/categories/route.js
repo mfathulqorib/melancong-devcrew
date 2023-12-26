@@ -1,8 +1,10 @@
 import { uploadFile } from "@/lib/uploadFile";
+import prisma from "@/utils/prisma";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse as res } from "next/server";
 import slugify from "slugify";
+
 export async function POST(req) {
   const formData = await req.formData();
   const name = formData.get("name");
@@ -43,6 +45,16 @@ export async function POST(req) {
     }
 
     return res.json({ message: "Success create category" }, { status: 201 });
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
+}
+export async function GET() {
+  try {
+    const categories = await prisma.category.findMany();
+
+    return res.json({ data: categories }, { status: 200 });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
