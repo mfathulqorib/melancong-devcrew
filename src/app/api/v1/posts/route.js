@@ -1,3 +1,5 @@
+import { verify } from "jsonwebtoken";
+import { cookies } from "next/headers";
 import { NextResponse as res } from "next/server";
 import slugify from "slugify";
 
@@ -14,24 +16,25 @@ export async function POST(req) {
   const categories = formData.get("categories");
   const images = formData.getAll("images");
 
+  //   get detail user
+  const cookieStorage = cookies();
+  const token = cookieStorage.get("token")?.value;
+  const decoded = verify(token, process.env.JWT_SECRET);
+  const userId = decoded.id;
+
   try {
-    let createPost;
-    categories.forEach(async (categorie) => {
-      createPost = await prisma.post.create({
-        data: {
-          title,
-          desc,
-          budget,
-          slug: slugify(title, { lower: true, replacement: "-" }),
-          officeHours,
-          latitude,
-          longitude,
-          address,
-          city,
-          categorie,
-          userId,
-        },
-      });
+    const createPost = await prisma.post.create({
+      data: {
+        title,
+        desc,
+        budget: Number(budget) || 0,
+        slug: slugify(slug, { lower: true, replacement: "-" }),
+        officeHours,
+        latitude,
+        longitude,
+        address,
+        city,
+      },
     });
   } catch (error) {
     console.log(error);
