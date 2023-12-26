@@ -1,2 +1,5 @@
-###find all users
-GET http://localhost:3000/api/v1/auth/register
+### Create category
+POST  http://localhost:3000/api/v1/categories
+{
+    
+}
