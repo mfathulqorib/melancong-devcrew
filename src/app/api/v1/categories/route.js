@@ -1,5 +1,7 @@
+import { uploadFile } from "@/lib/uploadFile";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { NextResponse as res } from "next/server";
 import slugify from "slugify";
 export async function POST(req) {
   const formData = await req.formData();
@@ -28,6 +30,19 @@ export async function POST(req) {
       console.log(error);
       return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
     }
+
+    // save image in aws
+    try {
+      const uploadCategoryImage = await uploadFile({
+        Body: image,
+        Dir: "categories",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.json({ error: `s3 process failed. Please try again later, ${error}` }, { status: 500 });
+    }
+
+    return res.json({ message: "Success create category" }, { status: 201 });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
