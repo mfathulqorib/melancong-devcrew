@@ -12,14 +12,6 @@ POST   http://localhost:3000/api/v1/auth/register
     "avatar":"rusli.jpeg"
 
 }
-### Email confirmation user
-
-PATCH    http://localhost:3000/api/v1/auth/confirmation?user=f49202b5-2658-4580-aabf-46c0696df6fc&token=eb97ce257ef3ba8a001cd7b06569d4ce
-
-
-
-###find all users
-GET http://localhost:3000/api/v1/auth/register
 
 
 ### Login
@@ -30,3 +22,10 @@ POST http://localhost:3000/api/v1/auth/login
     "email":"dokterfarma001@gmail.com",
     "password":"password"
 }
+
+
+### Email confirmation user
+
+PATCH    http://localhost:3000/api/v1/auth/confirmation?user=f49202b5-2658-4580-aabf-46c0696df6fc&token=eb97ce257ef3ba8a001cd7b06569d4ce
+
+
