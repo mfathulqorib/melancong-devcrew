@@ -20,3 +20,13 @@ PATCH    http://localhost:3000/api/v1/auth/confirmation?user=f49202b5-2658-4580-
 
 ###find all users
 GET http://localhost:3000/api/v1/auth/register
+
+
+### Login
+
+POST http://localhost:3000/api/v1/auth/login
+
+{
+    "email":"dokterfarma001@gmail.com",
+    "password":"password"
+}
