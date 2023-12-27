@@ -5,7 +5,7 @@ const CreateRole = async () => {
   try {
     const role = await prisma.role.create({
       data: {
-        id: "4212ganteng-45-u53r",
+        id: process.env.ROLE_ID_USER,
         name: "user",
       },
     });

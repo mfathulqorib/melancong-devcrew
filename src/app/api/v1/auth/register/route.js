@@ -7,7 +7,15 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_KEY);
 
 export async function POST(req) {
-  const { username, name, email, password, roleId, bio, isVerified, avatar } = await req.json();
+  const formData = await req.formData();
+  const username = formData.get("username") || "";
+  const name = formData.get("name") || "";
+  const email = formData.get("email") || "";
+  const password = formData.get("password") || "";
+  const roleId = formData.get("roleId") || process.env.ROLE_ID_USER;
+  const bio = formData.get("bio") || "";
+  const isVerified = formData.get("isVerified") || false;
+  const avatar = formData.get("avatar") || "";
   const token = crypto.randomBytes(16).toString("hex");
   const mailData = {
     from: process.env.RESEND_EMAIL,
