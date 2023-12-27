@@ -104,7 +104,7 @@ export async function GET(req) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
   const search = searchParams.get("search") || "";
-  const slug = searchParams.get("slug");
+  const postId = searchParams.get("id");
 
   // Calculate the start and end indexes for the requested page
   const startIndex = (page - 1) * limit || 0;
@@ -153,10 +153,10 @@ export async function GET(req) {
 
   try {
     // find Detail
-    if (slug) {
+    if (postId) {
       const detailPost = await prisma.post.findUnique({
         where: {
-          slug: slug,
+          id: postId,
         },
         include: includeQuery,
       });
@@ -222,7 +222,10 @@ export async function PATCH(req) {
     const images = formData.getAll("images");
 
     const findPost = await prisma.post.findUnique({ where: { id: postId } });
+    console.log({ findPost });
 
+    if (condition) {
+    }
     // const updatePost = await prisma.post.update({
     //   where: {
     //     slug,
