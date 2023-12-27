@@ -15,6 +15,7 @@ export async function POST(req) {
   const city = formData.get("city");
   const categories = formData.get("categories");
   const images = formData.getAll("images");
+  console.log("images", images);
 
   //   get detail user
   const cookieStorage = cookies();
@@ -23,27 +24,27 @@ export async function POST(req) {
   const userId = decoded.id;
 
   try {
-    const createPost = await prisma.post.create({
-      data: {
-        title,
-        desc,
-        budget: Number(budget) || 0,
-        slug: slugify(slug, { lower: true, replacement: "-" }),
-        officeHours,
-        latitude,
-        longitude,
-        address,
-        city,
-      },
-    });
-
+    // const createPost = await prisma.post.create({
+    //   data: {
+    //     title,
+    //     desc,
+    //     budget: Number(budget) || 0,
+    //     slug: slugify(slug, { lower: true, replacement: "-" }),
+    //     officeHours,
+    //     latitude,
+    //     longitude,
+    //     address,
+    //     city,
+    //   },
+    // });
     // make relation post_category
-    categories.forEach(async (category) => {
-      const postCategory = await prisma.postCategory.create({
-        postId: createPost.id,
-        categoryId: category,
-      });
-    });
+    // categories.forEach(async (category) => {
+    //   const postCategory = await prisma.postCategory.create({
+    //     postId: createPost.id,
+    //     categoryId: category,
+    //   });
+    // });
+    // make relation post_image
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });

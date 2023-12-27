@@ -22,8 +22,8 @@ model User {
   role       Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bio        String
   token      TokenEmail?
-  post Post[]
-  category  Category[]
+  post       Post[]
+  category   Category[]
   isVerified Boolean     @default(false)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -52,42 +52,51 @@ model TokenEmail {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  name      String @unique
-  slug      String
-  image     String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-   postCategory PostCategory[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String         @id @default(uuid())
+  name         String         @unique
+  slug         String
+  image        String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory PostCategory[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
-
 
 model Post {
-  id String @id @default(uuid())
-  title String
-  desc String
-  budget Int 
-  slug String
-  officeHours String
-  latitude String
-  longitude String
-  address String
-  city  String
-  userId String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id           String         @id @default(uuid())
+  title        String
+  desc         String
+  budget       Int
+  slug         String
+  officeHours  String
+  latitude     String
+  longitude    String
+  address      String
+  city         String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postCategory PostCategory[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  postImage    PostImage[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
-model PostCategory{
-  id String @id @default(uuid())
-postId String
-post Post @relation(fields: [postId],references: [id],onDelete: Cascade,onUpdate: Cascade)
-categoryId String
-category Category @relation(fields: [categoryId],references: [id],onDelete: Cascade,onUpdate: Cascade)
+model PostCategory {
+  id         String   @id @default(uuid())
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PostImage {
+  id        String   @id @default(uuid())
+  name      String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
