@@ -50,10 +50,10 @@ export async function POST(req) {
 
       (postId = createPost.id),
         // make relation post_category
-        categories.forEach(async (category) => {
-          const checkCategory = await prisma.findUnique({
+        categories.forEach(async (categoryId) => {
+          const checkCategory = await prisma.category.findUnique({
             where: {
-              id: category,
+              id: categoryId,
             },
           });
           if (!checkCategory) {
@@ -61,7 +61,7 @@ export async function POST(req) {
           }
 
           const postCategory = await prisma.postCategory.create({
-            data: { postId, categoryId: category },
+            data: { postId, categoryId },
           });
         });
 
@@ -93,6 +93,86 @@ export async function POST(req) {
     }
 
     return res.json({ message: "success create post " }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
+}
+
+export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const page = parseInt(searchParams.get("page")) || 1;
+  const limit = parseInt(searchParams.get("limit")) || 10;
+  const search = searchParams.get("search") || "";
+
+  // Calculate the start and end indexes for the requested page
+  const startIndex = (page - 1) * limit || 0;
+  const endIndex = page * limit;
+
+  const querySearch = {
+    OR: [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        desc: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ],
+  };
+
+  const includeQuery = {
+    user: {
+      select: {
+        name: true,
+      },
+    },
+    postImage: {
+      select: {
+        name: true,
+      },
+    },
+    postCategory: {
+      select: {
+        id: true,
+        category: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    },
+  };
+
+  try {
+    const [data, total] = await prisma.$transaction([
+      prisma.post.findMany({
+        where: querySearch,
+        include: includeQuery,
+        skip: startIndex,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+
+      prisma.post.count({ where: querySearch }),
+    ]);
+
+    const totalPage = Math.ceil(total / limit);
+    const paginate = {
+      page,
+      limit,
+      total,
+      totalPage,
+    };
+    return res.json({ data, paginate }, { status: 200 });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
