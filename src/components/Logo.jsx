@@ -10,3 +10,13 @@ export const Logo = () => {
     </div>
   );
 };
+
+export const LogoFooter = () => {
+  return (
+    <div
+      className={`${fontLogo.className} text-base text-[#0066ff] sm:text-xl`}
+    >
+      Melancong
+    </div>
+  );
+};

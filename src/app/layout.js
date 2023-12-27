@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         />
         <link rel="icon" href="/logo_melancong.ico" />
       </head>
-      <body className={fontSans.className}>
+      <body className={`${fontSans.className} scroll-smooth`}>
         <Provider>{children}</Provider>
       </body>
     </html>
