@@ -104,8 +104,8 @@ export async function GET(req) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
   const search = searchParams.get("search") || "";
-  const slug = searchParams.get("slug") || "";
-  console.log("slug", slug);
+  const slug = searchParams.get("slug");
+
   // Calculate the start and end indexes for the requested page
   const startIndex = (page - 1) * limit || 0;
   const endIndex = page * limit;
@@ -191,6 +191,54 @@ export async function GET(req) {
       totalPage,
     };
     return res.json({ data, paginate }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
+}
+
+export async function PATCH(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const postId = searchParams.get("id") || "";
+
+  //  detail user Login
+  const cookieStorage = cookies();
+  const token = cookieStorage.get("token")?.value;
+  const user = verify(token, process.env.JWT_SECRET);
+
+  console.log("role", user);
+
+  try {
+    const formData = await req.formData();
+    const title = formData.get("title");
+    const desc = formData.get("desc");
+    const budget = formData.get("budget");
+    const officeHours = formData.get("officeHours");
+    const latitude = formData.get("latitude");
+    const longitude = formData.get("longitude");
+    const address = formData.get("address");
+    const city = formData.get("city");
+    const categories = formData.getAll("categories");
+    const images = formData.getAll("images");
+
+    const findPost = await prisma.post.findUnique({ where: { id: postId } });
+
+    // const updatePost = await prisma.post.update({
+    //   where: {
+    //     slug,
+    //   },
+    //   data: {
+    //     title,
+    //     desc,
+    //     budget: Number(budget) || 0,
+    //     slug: slugify(title, { lower: true, replacement: "-" }),
+    //     officeHours,
+    //     latitude,
+    //     longitude,
+    //     address,
+    //     city,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
