@@ -54,7 +54,7 @@ model TokenEmail {
 model Category {
   id           String         @id @default(uuid())
   name         String         @unique
-  slug         String
+  slug         String         @unique
   image        String
   userId       String
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -68,7 +68,7 @@ model Post {
   title        String
   desc         String
   budget       Int
-  slug         String
+  slug         String         @unique
   officeHours  String
   latitude     String
   longitude    String

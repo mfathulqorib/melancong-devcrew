@@ -104,7 +104,8 @@ export async function GET(req) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
   const search = searchParams.get("search") || "";
-
+  const slug = searchParams.get("slug") || "";
+  console.log("slug", slug);
   // Calculate the start and end indexes for the requested page
   const startIndex = (page - 1) * limit || 0;
   const endIndex = page * limit;
@@ -151,6 +152,23 @@ export async function GET(req) {
   };
 
   try {
+    // find Detail
+    if (slug) {
+      const detailPost = await prisma.post.findUnique({
+        where: {
+          slug: slug,
+        },
+        include: includeQuery,
+      });
+
+      if (!detailPost) {
+        return res.json({ error: `data ${slug} not found` }, { status: 404 });
+      } else {
+        return res.json({ data: detailPost }, { status: 200 });
+      }
+    }
+
+    // find many
     const [data, total] = await prisma.$transaction([
       prisma.post.findMany({
         where: querySearch,
