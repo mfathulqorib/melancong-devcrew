@@ -15,7 +15,6 @@ export const ReviewCard = ({ img, name }) => {
           blurDataURL="/fake_image.avif"
           objectFit="cover"
           fill={true}
-          priority
         />
       </div>
       <div>{name}</div>
