@@ -165,7 +165,7 @@ export async function GET(req) {
       });
 
       if (!detailPost) {
-        return res.json({ error: `data ${slug} not found` }, { status: 404 });
+        return res.json({ error: `data ${postId} not found` }, { status: 404 });
       } else {
         return res.json({ data: detailPost }, { status: 200 });
       }
