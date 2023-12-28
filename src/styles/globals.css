@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* html {
+  scroll-behavior: smooth !important;
+} */
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+  @apply h-[10px] w-[10px] bg-[#c5cadf];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-[2em] bg-[#70768a];
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#454f6b];
+}
