@@ -29,6 +29,11 @@ export async function POST(req) {
   let postId = "";
   try {
     try {
+      const isUser = await prisma.user.findUnique({ where: { id: userId } });
+
+      if (!isUser) {
+        return res.json({ error: "user not found" }, { status: 401 });
+      }
       const createPost = await prisma.post.create({
         data: {
           title,
@@ -221,8 +226,14 @@ export async function PATCH(req) {
     const categories = formData.getAll("categories");
     const images = formData.getAll("images");
 
-    const findPost = await prisma.post.findUnique({ where: { id: postId } });
-    console.log({ findPost });
+    console.log("post id", postId);
+    const postDetail = await prisma.post.findUnique({ where: { id: postId } });
+
+    console.log({ postDetail });
+
+    if (user.roleId != process.envROLE_ID_ADMIN && user.roleId != postDetail.userId) {
+      return res.json({ error: "sorry you didnt get permisio for this feature" }, { status: 400 });
+    }
 
     if (condition) {
     }
