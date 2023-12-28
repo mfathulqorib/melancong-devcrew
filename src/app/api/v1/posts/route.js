@@ -221,72 +221,96 @@ export async function PATCH(req) {
   const images = formData.getAll("images");
 
   try {
-    const postDetail = await prisma.post.findUnique({ where: { id: postId } });
-    if (!postDetail) {
-      return res.json({ error: "post  not found" }, { status: 404 });
+    try {
+      const postDetail = await prisma.post.findUnique({ where: { id: postId } });
+      if (!postDetail) {
+        return res.json({ error: "post  not found" }, { status: 404 });
+      }
+
+      const isUser = await prisma.user.findUnique({ where: { id: user.id } });
+      if (!isUser) {
+        return res.json({ error: "user not found" }, { status: 401 });
+      }
+
+      if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
+        return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+      }
+
+      console.log({ categories });
+
+      let dataPostCategories = [];
+      for (const category in categories) {
+        const idPost = postId;
+        const entry = { postId: idPost, categoryId: categories[category] };
+        dataPostCategories.push(entry);
+      }
+
+      // create postImage
+      let dataPostImage = [];
+      for (const image in images) {
+        const idPost = postId;
+        const entry = { postId: idPost, name: images[image].name };
+        dataPostImage.push(entry);
+      }
+
+      console.log({ dataPostCategories });
+
+      const [updatePost, deletePostCategories, createPostCategory, deleteImage, createPostImage] =
+        await prisma.$transaction([
+          prisma.post.update({
+            where: {
+              id: postId,
+            },
+            data: {
+              title,
+              desc,
+              budget: Number(budget) || 0,
+              slug: slugify(title, { lower: true, replacement: "-" }),
+              officeHours,
+              latitude,
+              longitude,
+              address,
+              city,
+            },
+          }),
+
+          prisma.postCategory.deleteMany({ where: { postId: postId } }),
+          prisma.postCategory.createMany({ data: dataPostCategories }),
+          prisma.postImage.deleteMany({ where: { postId: postId } }),
+          prisma.postImage.createMany({ data: dataPostImage }),
+        ]);
+
+      res.json(
+        {
+          message: "succes update data",
+          updatePost,
+          deletePostCategories,
+          createPostCategory,
+          deleteImage,
+          createPostImage,
+        },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.log(error);
+      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
     }
 
-    const isUser = await prisma.user.findUnique({ where: { id: user.id } });
-    if (!isUser) {
-      return res.json({ error: "user not found" }, { status: 401 });
+    // save to s3
+    try {
+      images.forEach(async (image) => {
+        const UploadPostIMages = await uploadFile({
+          Body: image,
+          Dir: `posts/${postId}`,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
     }
-
-    if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
-      return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
-    }
-
-    console.log({ categories });
-
-    let dataPostCategories = [];
-    for (const category in categories) {
-      const idPost = postId;
-      const entry = { postId: idPost, categoryId: categories[category] };
-      dataPostCategories.push(entry);
-    }
-
-    // create postImage
-    let dataPostImage = [];
-    for (const image in images) {
-      const idPost = postId;
-      const entry = { postId: idPost, name: images[image].name };
-      dataPostImage.push(entry);
-    }
-
-    console.log({ dataPostCategories });
-
-    const [updatePost, deletePostCategories, createPostCategory, deleteImage, createPostImage] =
-      await prisma.$transaction([
-        prisma.post.update({
-          where: {
-            id: postId,
-          },
-          data: {
-            title,
-            desc,
-            budget: Number(budget) || 0,
-            slug: slugify(title, { lower: true, replacement: "-" }),
-            officeHours,
-            latitude,
-            longitude,
-            address,
-            city,
-          },
-        }),
-
-        prisma.postCategory.deleteMany({ where: { postId: postId } }),
-        prisma.postCategory.createMany({ data: dataPostCategories }),
-        prisma.postImage.deleteMany({ where: { postId: postId } }),
-        prisma.postImage.createMany({ data: dataPostImage }),
-      ]);
-
     return res.json(
       {
         message: "succes update data",
-        updatePost,
-        deletePostCategories,
-        createPostCategory,
-        deleteImage,
-        createPostImage,
       },
       { status: 200 }
     );
