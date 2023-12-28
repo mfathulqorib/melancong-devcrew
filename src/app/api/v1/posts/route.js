@@ -279,33 +279,52 @@ export async function PATCH(req) {
         prisma.postImage.createMany({ data: dataPostImage }),
       ]);
 
-    // const updatePost = await prisma.post.update({
-    //   where: {
-    //     id:postId,
-    //   },
-    //   data: {
-    //     title,
-    //     desc,
-    //     budget: Number(budget) || 0,
-    //     slug: slugify(title, { lower: true, replacement: "-" }),
-    //     officeHours,
-    //     latitude,
-    //     longitude,
-    //     address,
-    //     city,
-    //   },
-    // });
-
-    // if (!updatePost) {
-    //   return res.json({ error: `Failed to update data, ${error}` }, { status: 500 });
-    // }
-
-    // const categories = await prisma.postCategory.deleteMany({where:postId})
-
     return res.json(
-      { updatePost, deletePostCategories, createPostCategory, deleteImage, createPostImage },
+      {
+        message: "succes update data",
+        updatePost,
+        deletePostCategories,
+        createPostCategory,
+        deleteImage,
+        createPostImage,
+      },
       { status: 200 }
     );
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const postId = searchParams.get("id") || "";
+  //  detail user Login
+  const cookieStorage = cookies();
+  const token = cookieStorage.get("token")?.value;
+  const user = verify(token, process.env.JWT_SECRET);
+  try {
+    const postDetail = await prisma.post.findUnique({ where: { id: postId } });
+    if (!postDetail) {
+      return res.json({ error: "post  not found" }, { status: 404 });
+    }
+
+    const isUser = await prisma.user.findUnique({ where: { id: user.id } });
+    if (!isUser) {
+      return res.json({ error: "user not found" }, { status: 401 });
+    }
+
+    if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
+      return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+    }
+
+    const deletePost = await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+
+    return res.json({ message: "delete post success" });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
