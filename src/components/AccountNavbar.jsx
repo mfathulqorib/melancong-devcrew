@@ -17,19 +17,18 @@ export const AccountNavbar = () => {
   return (
     <HeaderLayout>
       <Logo />
-      <div className="flex items-center gap-4">
-        <div>
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="text-sm sm:text-base">
           Halo, <span className="font-semibold">Jane Doe</span>
         </div>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger>
+          <DropdownTrigger className="h-7 w-7 sm:h-8 sm:w-8 ">
             <Avatar
               isBordered
               as="button"
               className="transition-transform"
               color="primary"
               name="Jane Doe"
-              size="sm"
               src="https://ui-avatars.com/api/?background=0D8ABC&color=fff"
             />
           </DropdownTrigger>
@@ -48,10 +47,14 @@ export const AccountNavbar = () => {
               <p className="text-xs font-normal">zoey@example.com</p>
             </DropdownItem>
             <DropdownItem key="beranda" textValue="beranda">
-              <Link href={"/home"}>Beranda</Link>
+              <Link href={"/home"}>
+                <div>Beranda</div>
+              </Link>
             </DropdownItem>
             <DropdownItem key="akun" textValue="akun">
-              <Link href={"/myaccount"}>Akun</Link>
+              <Link href={"/myaccount"}>
+                <div>Akun</div>
+              </Link>
             </DropdownItem>
             <DropdownItem key="pengaturan" textValue="pengaturan">
               <div className="flex gap-2">
@@ -70,7 +73,9 @@ export const AccountNavbar = () => {
               </div>
             </DropdownItem>
             <DropdownItem key="logout" textValue="logout" color="danger">
-              <Link href={"/"}>Log Out</Link>
+              <Link href={"/"}>
+                <div>Log Out</div>
+              </Link>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
