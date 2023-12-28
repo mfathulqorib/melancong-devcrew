@@ -8,9 +8,12 @@ const s3Client = new S3Client({
   },
 });
 
-export async function uploadFile({ Body, Key, ContentType, Dir }) {
+export async function uploadFile({ Body, Dir }) {
   const bytes = await Body.arrayBuffer();
   const buffer = Buffer.from(bytes);
+
+  const Key = Body.name;
+  const ContentType = Body.type;
 
   const command = new PutObjectCommand({
     Bucket: "melancong-devcrew",
@@ -21,7 +24,7 @@ export async function uploadFile({ Body, Key, ContentType, Dir }) {
 
   try {
     const res = await s3Client.send(command);
-    console.log(res);
+    console.log("s3 succes ", res);
   } catch (error) {
     console.log(error);
   }

@@ -1,0 +1,31 @@
+### Register
+
+POST   http://localhost:3000/api/v1/auth/register
+
+{
+    "username":"rusli",
+    "name":"rusli efendi",
+    "email":"rusli@mail.com",
+    "password":"password",
+    "roleId":"31c7ae50-689a-41e6-a10b-ec322010cead",
+    "bio":"lajang",
+    "avatar":"rusli.jpeg"
+
+}
+
+
+### Login
+
+POST http://localhost:3000/api/v1/auth/login
+
+{
+    "email":"dokterfarma001@gmail.com",
+    "password":"password"
+}
+
+
+### Email confirmation user
+
+PATCH    http://localhost:3000/api/v1/auth/confirmation?user=f49202b5-2658-4580-aabf-46c0696df6fc&token=eb97ce257ef3ba8a001cd7b06569d4ce
+
+

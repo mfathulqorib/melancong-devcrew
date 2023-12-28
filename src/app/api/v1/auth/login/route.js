@@ -1,30 +1,32 @@
 import prisma from "@/utils/prisma";
-import { NextResponse } from "next/server";
-
+import { NextResponse as res } from "next/server";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 
 export async function POST(req) {
   const { email, password } = await req.json();
 
+  console.log({ email, password });
   try {
+    if (!email && !password) {
+      return res.json({ error: "email and password is required" }, { status: 400 });
+    }
+
+    console.log("ok");
     const findUser = await prisma.user.findUnique({
       where: {
         email,
       },
     });
 
-    // Jika user belum verifikasi, kirim pesan error
-    if (findUser.verified === false) {
-      return NextResponse.json(
-        { errorMessage: "Please verify your account first" },
-        { status: 401 }
-      );
+    console.log("ok2");
+
+    if (!findUser) {
+      return res.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Jika user tidak ditemukan, kirim pesan error
-    if (!findUser) {
-      return NextResponse.json({ errorMessage: "User not found" }, { status: 404 });
+    if (!findUser.isVerified) {
+      return res.json({ error: "Please verify your account first" }, { status: 401 });
     }
 
     // Bandingkan password yang diinput dengan password di database
@@ -32,29 +34,28 @@ export async function POST(req) {
 
     // Jika password tidak cocok, kirim pesan error
     if (!comparePassword) {
-      return NextResponse.json({ errorMessage: "Invalid Credentials" }, { status: 401 });
+      return res.json({ error: "Invalid Credentials" }, { status: 401 });
     }
 
     // Jika password cocok, kirim data user
     const payload = {
       id: findUser.id,
-      firstName: findUser.firstName,
-      lastName: findUser.lastName,
       username: findUser.username,
+      name: findUser.name,
+      bio: findUser.bio,
       email: findUser.email,
+      avatar: findUser.avatar,
+      roleId: findUser.roleId,
     };
 
     // Buat token
     const token = sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
-    const res = NextResponse.json({ data: payload, message: "Login succesfully" }, { status: 200 });
-    res.cookies.set("token", token);
+    const cookieResponse = res.json({ data: payload, message: "Login succesfully" }, { status: 200 });
+    cookieResponse.cookies.set("token", token);
 
-    return res;
+    return cookieResponse;
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      { errorMessage: "Something went wrong. Please try again later" },
-      { status: 500 }
-    );
+    return res.json({ error: "Something went wrong. Please try again later" }, { status: 500 });
   }
 }
