@@ -24,13 +24,10 @@ export async function POST(req) {
   const decoded = verify(token, process.env.JWT_SECRET);
   const userId = decoded.id;
 
-  console.log("categories", categories);
-
   let postId = "";
   try {
     try {
       const isUser = await prisma.user.findUnique({ where: { id: userId } });
-
       if (!isUser) {
         return res.json({ error: "user not found" }, { status: 401 });
       }
@@ -53,22 +50,23 @@ export async function POST(req) {
         return res.json({ error: "failed create post" }, { status: 500 });
       }
 
-      (postId = createPost.id),
-        // make relation post_category
-        categories.forEach(async (categoryId) => {
-          const checkCategory = await prisma.category.findUnique({
-            where: {
-              id: categoryId,
-            },
-          });
-          if (!checkCategory) {
-            return res.json({ error: `${checkCategory}, category not found` }, { status: 404 });
-          }
-
-          const postCategory = await prisma.postCategory.create({
-            data: { postId, categoryId },
-          });
+      postId = createPost.id;
+      // make relation post_category
+      for (const categoryId of categories) {
+        const checkCategory = await prisma.category.findUnique({
+          where: {
+            id: categoryId,
+          },
         });
+
+        if (!checkCategory) {
+          return res.json({ error: `${categoryId}, category not found` }, { status: 404 });
+        }
+
+        const postCategory = await prisma.postCategory.create({
+          data: { postId, categoryId },
+        });
+      }
 
       // make relation post_image
       images.forEach(async (element) => {
@@ -205,54 +203,152 @@ export async function GET(req) {
 export async function PATCH(req) {
   const searchParams = req.nextUrl.searchParams;
   const postId = searchParams.get("id") || "";
-
   //  detail user Login
   const cookieStorage = cookies();
   const token = cookieStorage.get("token")?.value;
   const user = verify(token, process.env.JWT_SECRET);
-
-  console.log("role", user);
+  // get request from formData
+  const formData = await req.formData();
+  const title = formData.get("title");
+  const desc = formData.get("desc");
+  const budget = formData.get("budget");
+  const officeHours = formData.get("officeHours");
+  const latitude = formData.get("latitude");
+  const longitude = formData.get("longitude");
+  const address = formData.get("address");
+  const city = formData.get("city");
+  const categories = formData.getAll("categories");
+  const images = formData.getAll("images");
 
   try {
-    const formData = await req.formData();
-    const title = formData.get("title");
-    const desc = formData.get("desc");
-    const budget = formData.get("budget");
-    const officeHours = formData.get("officeHours");
-    const latitude = formData.get("latitude");
-    const longitude = formData.get("longitude");
-    const address = formData.get("address");
-    const city = formData.get("city");
-    const categories = formData.getAll("categories");
-    const images = formData.getAll("images");
+    try {
+      const postDetail = await prisma.post.findUnique({ where: { id: postId } });
+      if (!postDetail) {
+        return res.json({ error: "post  not found" }, { status: 404 });
+      }
 
-    console.log("post id", postId);
+      const isUser = await prisma.user.findUnique({ where: { id: user.id } });
+      if (!isUser) {
+        return res.json({ error: "user not found" }, { status: 401 });
+      }
+
+      if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
+        return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+      }
+
+      console.log({ categories });
+
+      let dataPostCategories = [];
+      for (const category in categories) {
+        const idPost = postId;
+        const entry = { postId: idPost, categoryId: categories[category] };
+        dataPostCategories.push(entry);
+      }
+
+      // create postImage
+      let dataPostImage = [];
+      for (const image in images) {
+        const idPost = postId;
+        const entry = { postId: idPost, name: images[image].name };
+        dataPostImage.push(entry);
+      }
+
+      console.log({ dataPostCategories });
+
+      const [updatePost, deletePostCategories, createPostCategory, deleteImage, createPostImage] =
+        await prisma.$transaction([
+          prisma.post.update({
+            where: {
+              id: postId,
+            },
+            data: {
+              title,
+              desc,
+              budget: Number(budget) || 0,
+              slug: slugify(title, { lower: true, replacement: "-" }),
+              officeHours,
+              latitude,
+              longitude,
+              address,
+              city,
+            },
+          }),
+
+          prisma.postCategory.deleteMany({ where: { postId: postId } }),
+          prisma.postCategory.createMany({ data: dataPostCategories }),
+          prisma.postImage.deleteMany({ where: { postId: postId } }),
+          prisma.postImage.createMany({ data: dataPostImage }),
+        ]);
+
+      res.json(
+        {
+          message: "succes update data",
+          updatePost,
+          deletePostCategories,
+          createPostCategory,
+          deleteImage,
+          createPostImage,
+        },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.log(error);
+      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    }
+
+    // save to s3
+    try {
+      images.forEach(async (image) => {
+        const UploadPostIMages = await uploadFile({
+          Body: image,
+          Dir: `posts/${postId}`,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    }
+    return res.json(
+      {
+        message: "succes update data",
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const postId = searchParams.get("id") || "";
+  //  detail user Login
+  const cookieStorage = cookies();
+  const token = cookieStorage.get("token")?.value;
+  const user = verify(token, process.env.JWT_SECRET);
+  try {
     const postDetail = await prisma.post.findUnique({ where: { id: postId } });
-
-    console.log({ postDetail });
-
-    if (user.roleId != process.envROLE_ID_ADMIN && user.roleId != postDetail.userId) {
-      return res.json({ error: "sorry you didnt get permisio for this feature" }, { status: 400 });
+    if (!postDetail) {
+      return res.json({ error: "post  not found" }, { status: 404 });
     }
 
-    if (condition) {
+    const isUser = await prisma.user.findUnique({ where: { id: user.id } });
+    if (!isUser) {
+      return res.json({ error: "user not found" }, { status: 401 });
     }
-    // const updatePost = await prisma.post.update({
-    //   where: {
-    //     slug,
-    //   },
-    //   data: {
-    //     title,
-    //     desc,
-    //     budget: Number(budget) || 0,
-    //     slug: slugify(title, { lower: true, replacement: "-" }),
-    //     officeHours,
-    //     latitude,
-    //     longitude,
-    //     address,
-    //     city,
-    //   },
-    // });
+
+    if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
+      return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+    }
+
+    const deletePost = await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+
+    return res.json({ message: "delete post success" });
   } catch (error) {
     console.log(error);
     return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
