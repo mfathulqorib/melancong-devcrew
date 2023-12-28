@@ -6,15 +6,98 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Users {
-  id       String @id @default(uuid()) // Primary key yang jadi index
-  email    String @unique // !index
-  name     String
-  password String
+model User {
+  id         String      @id @default(uuid()) // Primary key yang jadi index
+  username   String      @unique
+  name       String
+  email      String      @unique // !index
+  password   String
+  avatar     String
+  roleId     String      @default("devcr3w-45-u53r")
+  role       Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bio        String
+  token      TokenEmail?
+  post       Post[]
+  category   Category[]
+  isVerified Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
 
   @@index([email])
+  @@index([username])
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  name      String
+  user      User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TokenEmail {
+  id        String   @id @default(uuid())
+  token     String
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([token])
+}
+
+model Category {
+  id           String         @id @default(uuid())
+  name         String         @unique
+  slug         String         @unique
+  image        String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory PostCategory[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Post {
+  id           String         @id @default(uuid())
+  title        String
+  desc         String
+  budget       Int
+  slug         String         @unique
+  officeHours  String
+  latitude     String
+  longitude    String
+  address      String
+  city         String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory PostCategory[]
+  postImage    PostImage[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model PostCategory {
+  id         String   @id @default(uuid())
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PostImage {
+  id        String   @id @default(uuid())
+  name      String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
