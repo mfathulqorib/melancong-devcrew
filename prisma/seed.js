@@ -3,17 +3,11 @@ const prisma = new PrismaClient();
 
 const CreateRole = async () => {
   try {
-    const role = await prisma.role.createMany({
-      data: [
-        {
-          id: process.env.ROLE_ID_USER,
-          name: "user",
-        },
-        {
-          id: process.env.ROLE_ID_ADMIN,
-          name: "admin",
-        },
-      ],
+    const role = await prisma.role.create({
+      data: {
+        id: process.env.ROLE_ID_USER,
+        name: "user",
+      },
     });
 
     console.log("seed succes: ", role);
