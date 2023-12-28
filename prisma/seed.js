@@ -9,6 +9,7 @@ const CreateRole = async () => {
         name: "user",
       },
     });
+
     console.log("seed succes: ", role);
   } catch (error) {
     console.log(error);
