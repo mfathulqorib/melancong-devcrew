@@ -27,7 +27,7 @@ model User {
   isVerified Boolean     @default(false)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  Category   Category[]
+
 
   @@index([email])
   @@index([username])
