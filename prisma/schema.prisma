@@ -27,6 +27,7 @@ model User {
   isVerified Boolean     @default(false)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  rating    Rating[]
 
 
   @@index([email])
@@ -79,6 +80,7 @@ model Post {
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postCategory PostCategory[]
   postImage    PostImage[]
+  rating    Rating[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -96,6 +98,17 @@ model PostCategory {
 model PostImage {
   id        String   @id @default(uuid())
   name      String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rating {
+   id        String   @id @default(uuid())
+  rate      BigInt
+   userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
