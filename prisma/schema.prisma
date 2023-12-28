@@ -20,14 +20,15 @@ model User {
   avatar     String
   roleId     String      @default("devcr3w-45-u53r")
   role       Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  bio        String
+  bio        String  @db.Text
   token      TokenEmail?
   post       Post[]
   category   Category[]
+  comment   Comment[]
+  rating    Rating[]
   isVerified Boolean     @default(false)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  rating    Rating[]
 
 
   @@index([email])
@@ -68,7 +69,7 @@ model Category {
 model Post {
   id           String         @id @default(uuid())
   title        String
-  desc         String
+  desc         String   @db.Text
   budget       Int
   slug         String        
   officeHours  String
@@ -81,6 +82,7 @@ model Post {
   postCategory PostCategory[]
   postImage    PostImage[]
   rating    Rating[]
+  comment    Comment[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -107,6 +109,17 @@ model PostImage {
 model Rating {
    id        String   @id @default(uuid())
   rate      BigInt
+   userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+   id        String   @id @default(uuid())
+  message      String @db.Text
    userId       String
   user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    String
