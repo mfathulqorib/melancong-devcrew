@@ -4,6 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { createContext, useEffect, useState } from "react";
 import { getAllPosts, travelService } from "@/services/TravelService";
 import { Search } from "@/lib/Search";
+import { API_URL } from "@/utils/ApiUrl";
 
 export const AppContext = createContext();
 
@@ -37,6 +38,7 @@ export const Provider = ({ children }) => {
     initData();
   }, []);
 
+  console.log(API_URL);
   return (
     <AppContext.Provider
       value={{
