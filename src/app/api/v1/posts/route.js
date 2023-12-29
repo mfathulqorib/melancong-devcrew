@@ -60,7 +60,10 @@ export async function POST(req) {
         });
 
         if (!checkCategory) {
-          return res.json({ error: `${categoryId}, category not found` }, { status: 404 });
+          return res.json(
+            { error: `${categoryId}, category not found` },
+            { status: 404 },
+          );
         }
 
         const postCategory = await prisma.postCategory.create({
@@ -79,7 +82,10 @@ export async function POST(req) {
       });
     } catch (error) {
       console.log(error);
-      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+      return res.json(
+        { error: `Something went wrong. Please try again later, ${error}` },
+        { status: 500 },
+      );
     }
 
     // save to s3
@@ -92,13 +98,19 @@ export async function POST(req) {
       });
     } catch (error) {
       console.log(error);
-      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+      return res.json(
+        { error: `Something went wrong. Please try again later, ${error}` },
+        { status: 500 },
+      );
     }
 
     return res.json({ message: "success create post " }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
   }
 }
 
@@ -152,6 +164,21 @@ export async function GET(req) {
         },
       },
     },
+    rating: {
+      select: {
+        id: true,
+        rate: true,
+        userId: true,
+      },
+    },
+    comment: {
+      select: {
+        id: true,
+        message: true,
+        userId: true,
+        createdAt: true,
+      },
+    },
   };
 
   try {
@@ -172,7 +199,7 @@ export async function GET(req) {
     }
 
     // find many
-    const [data, total] = await prisma.$transaction([
+    const [data, total, averageRatings] = await prisma.$transaction([
       prisma.post.findMany({
         where: querySearch,
         include: includeQuery,
@@ -184,19 +211,38 @@ export async function GET(req) {
       }),
 
       prisma.post.count({ where: querySearch }),
+      prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" GROUP BY "postId"`,
     ]);
+    // console.log(averageRatings);
+    const averageRatingsMap = averageRatings.reduce((acc, rating) => {
+      // console.log(rating);
+      acc[rating.postId] = rating.averageRating;
+      return acc;
+    }, {});
+
+    // console.log(averageRatingsMap);
 
     const totalPage = Math.ceil(total / limit);
-    const paginate = {
-      page,
-      limit,
-      total,
-      totalPage,
+
+    const response = {
+      data: data.map((post) => ({
+        ...post,
+        averageRating: averageRatingsMap[post.id] || 0,
+      })),
+      paginate: {
+        page,
+        limit,
+        total,
+        totalPage,
+      },
     };
-    return res.json({ data, paginate }, { status: 200 });
+    return res.json(response, { status: 200 });
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
   }
 }
 
@@ -222,7 +268,9 @@ export async function PATCH(req) {
 
   try {
     try {
-      const postDetail = await prisma.post.findUnique({ where: { id: postId } });
+      const postDetail = await prisma.post.findUnique({
+        where: { id: postId },
+      });
       if (!postDetail) {
         return res.json({ error: "post  not found" }, { status: 404 });
       }
@@ -232,8 +280,14 @@ export async function PATCH(req) {
         return res.json({ error: "user not found" }, { status: 401 });
       }
 
-      if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
-        return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+      if (
+        user.roleId != process.env.ROLE_ID_ADMIN &&
+        user.id != postDetail.userId
+      ) {
+        return res.json(
+          { error: "sorry you didnt get permision access for this feature" },
+          { status: 400 },
+        );
       }
 
       console.log({ categories });
@@ -255,30 +309,35 @@ export async function PATCH(req) {
 
       console.log({ dataPostCategories });
 
-      const [updatePost, deletePostCategories, createPostCategory, deleteImage, createPostImage] =
-        await prisma.$transaction([
-          prisma.post.update({
-            where: {
-              id: postId,
-            },
-            data: {
-              title,
-              desc,
-              budget: Number(budget) || 0,
-              slug: slugify(title, { lower: true, replacement: "-" }),
-              officeHours,
-              latitude,
-              longitude,
-              address,
-              city,
-            },
-          }),
+      const [
+        updatePost,
+        deletePostCategories,
+        createPostCategory,
+        deleteImage,
+        createPostImage,
+      ] = await prisma.$transaction([
+        prisma.post.update({
+          where: {
+            id: postId,
+          },
+          data: {
+            title,
+            desc,
+            budget: Number(budget) || 0,
+            slug: slugify(title, { lower: true, replacement: "-" }),
+            officeHours,
+            latitude,
+            longitude,
+            address,
+            city,
+          },
+        }),
 
-          prisma.postCategory.deleteMany({ where: { postId: postId } }),
-          prisma.postCategory.createMany({ data: dataPostCategories }),
-          prisma.postImage.deleteMany({ where: { postId: postId } }),
-          prisma.postImage.createMany({ data: dataPostImage }),
-        ]);
+        prisma.postCategory.deleteMany({ where: { postId: postId } }),
+        prisma.postCategory.createMany({ data: dataPostCategories }),
+        prisma.postImage.deleteMany({ where: { postId: postId } }),
+        prisma.postImage.createMany({ data: dataPostImage }),
+      ]);
 
       res.json(
         {
@@ -289,11 +348,14 @@ export async function PATCH(req) {
           deleteImage,
           createPostImage,
         },
-        { status: 200 }
+        { status: 200 },
       );
     } catch (error) {
       console.log(error);
-      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+      return res.json(
+        { error: `Something went wrong. Please try again later, ${error}` },
+        { status: 500 },
+      );
     }
 
     // save to s3
@@ -306,17 +368,23 @@ export async function PATCH(req) {
       });
     } catch (error) {
       console.log(error);
-      return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+      return res.json(
+        { error: `Something went wrong. Please try again later, ${error}` },
+        { status: 500 },
+      );
     }
     return res.json(
       {
         message: "succes update data",
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
   }
 }
 
@@ -338,8 +406,14 @@ export async function DELETE(req) {
       return res.json({ error: "user not found" }, { status: 401 });
     }
 
-    if (user.roleId != process.env.ROLE_ID_ADMIN && user.id != postDetail.userId) {
-      return res.json({ error: "sorry you didnt get permision access for this feature" }, { status: 400 });
+    if (
+      user.roleId != process.env.ROLE_ID_ADMIN &&
+      user.id != postDetail.userId
+    ) {
+      return res.json(
+        { error: "sorry you didnt get permision access for this feature" },
+        { status: 400 },
+      );
     }
 
     const deletePost = await prisma.post.delete({
@@ -351,6 +425,9 @@ export async function DELETE(req) {
     return res.json({ message: "delete post success" });
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
   }
 }

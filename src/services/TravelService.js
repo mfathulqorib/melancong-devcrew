@@ -14,13 +14,13 @@ export const travelService = axios.create({
   },
 });
 
-export async function getAllPosts() {
-  try {
-    const response = await travelService.get("/posts");
-    if (response.status === 200) {
-      return response.data;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
+// export async function getAllPosts() {
+//   try {
+//     const response = await travelService.get("/posts");
+//     if (response.status === 200) {
+//       return response.data;
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
