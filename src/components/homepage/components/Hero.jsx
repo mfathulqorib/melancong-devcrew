@@ -12,7 +12,7 @@ export const Hero = () => {
   return (
     <div
       id="hero"
-      className="relative block overflow-hidden pt-[50px] sm:mt-[0px] "
+      className="relative block overflow-hidden pt-[50px] sm:pt-[60px] sm:mt-[0px] "
     >
       <div className="absolute -z-50 box-border h-full w-full bg-[url('/bg_hero_5.png')] bg-cover bg-[center_top_30%]">
       </div>

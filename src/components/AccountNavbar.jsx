@@ -22,7 +22,7 @@ export const AccountNavbar = () => {
           Halo, <span className="font-semibold">Jane Doe</span>
         </div>
         <Dropdown placement="bottom-end">
-          <DropdownTrigger className="h-7 w-7 sm:h-8 sm:w-8 ">
+          <DropdownTrigger className="h-6 w-6 sm:h-8 sm:w-8 ">
             <Avatar
               isBordered
               as="button"
