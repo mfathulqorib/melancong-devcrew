@@ -1,39 +1,58 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
+import { getAllPosts, travelService } from "@/services/TravelService";
+import { Search } from "@/lib/Search";
+import { API_URL } from "@/utils/ApiUrl";
 
 export const AppContext = createContext();
-const fakeRes = [
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 1",
-  },
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 2",
-  },
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 3",
-  },
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 4",
-  },
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 5",
-  },
-  {
-    img: "/fake_image.avif",
-    name: "Gunung Bromo 6",
-  },
-];
 
 export const Provider = ({ children }) => {
+  const [keyword, setKeyword] = useState("");
+  const [affordableDestination, setAffordableDestination] = useState([]);
+  const [topRateDestination, setTopRateDestination] = useState([]);
+  const [trendingDestination, setTrendingDestination] = useState([]);
+  const querySearch = ["city", "title"];
+
+  const initData = () => {
+    travelService
+      .get("/posts")
+      .then(({ data }) => {
+        setAffordableDestination(
+          data.data.slice().sort((a, b) => a.budget - b.budget),
+        );
+        setTopRateDestination(
+          data.data.slice().sort((a, b) => b.averageRating - a.averageRating),
+        );
+        setTrendingDestination(
+          data.data.slice().sort((a, b) => b.comment.length - a.comment.length),
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
+  console.log(API_URL);
   return (
-    <AppContext.Provider value={{ fakeRes }}>
+    <AppContext.Provider
+      value={{
+        setKeyword,
+        keyword,
+        affordableDestination: Search(
+          affordableDestination,
+          querySearch,
+          keyword,
+        ),
+        topRateDestination: Search(topRateDestination, querySearch, keyword),
+        trendingDestination: Search(trendingDestination, querySearch, keyword),
+      }}
+    >
       <NextUIProvider>
         <div>{children}</div>
       </NextUIProvider>

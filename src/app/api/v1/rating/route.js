@@ -1,4 +1,5 @@
 import prisma from "@/utils/prisma";
+import { user } from "@nextui-org/react";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse as res } from "next/server";
@@ -27,6 +28,28 @@ export async function POST(req) {
     return res.json({ message: "success give rating" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const users = await prisma.rating.findMany();
+    const aggregations = await prisma.rating.aggregate({
+      _avg: {
+        rate: true,
+      },
+    });
+
+    return res.json({ data: users, message: "success" }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return res.json(
+      { errorMessage: "Something went wrong. Please try again later" },
+      { status: 500 },
+    );
   }
 }
