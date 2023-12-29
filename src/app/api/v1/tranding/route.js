@@ -3,9 +3,8 @@ import { NextResponse as res} from "next/server";
 
 export async function GET(){
     try {
-        const topRated = await prisma.rating.findMany({include:{post:true},orderBy:{rate:'desc'}})
-console.log("top rated",topRated);
-        return res.json({data:topRated},{status:200})
+        const tranding = await prisma.comment.findMany({include:{post:true},orderBy:{postId:'asc'}})
+        return res.json({data:tranding},{status:200})
 
     } catch (error) {
         console.log(error);
