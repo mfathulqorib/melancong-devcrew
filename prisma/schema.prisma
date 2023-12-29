@@ -69,7 +69,7 @@ model Post {
   id           String         @id @default(uuid())
   title        String
   desc         String         @db.Text
-  budget       Int
+  budget       Float
   slug         String
   officeHours  String
   latitude     String
