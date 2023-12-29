@@ -6,31 +6,21 @@ import Link from "next/link";
 import React from "react";
 import { HeroText } from "./HeroText";
 import { HeroHeader } from "./HeroHeader";
-import { SearchIcon } from "./SearchIcon";
+import { SearchIcon } from "./icon/SearchIcon";
 
 export const Hero = () => {
   return (
     <div
       id="hero"
-      className="relative block overflow-hidden pt-[50px] sm:mt-[0px] "
+      className="relative block overflow-hidden pt-[50px] sm:pt-[60px] sm:mt-[0px] "
     >
       <div className="absolute -z-50 box-border h-full w-full bg-[url('/bg_hero_5.png')] bg-cover bg-[center_top_30%]">
-        {/* <Image
-          src="/bg_hero_2.avif"
-          fill
-          className="object-cover"
-          alt=""
-          objectFit="cover"
-          // objectPosition="0% 50%"
-          priority
-        /> */}
       </div>
       <div className="z-10 h-[260px] w-full px-6 py-4 sm:h-[360px] sm:py-8">
         <section className=" flex h-full flex-col items-center justify-between gap-5 text-center">
           <HeroHeader />
-          {/* <HeroText /> */}
           <div className="flex flex-col items-center gap-3 sm:gap-5">
-            <div className="flex w-[200px] items-center gap-3 rounded-3xl bg-white px-4 py-2 text-gray-500 sm:w-[240px]">
+            <div className="flex w-[200px] items-center gap-3 rounded-3xl bg-white px-4 py-2 text-gray-500 sm:w-[360px]">
               <SearchIcon />
               <input
                 type="text"
