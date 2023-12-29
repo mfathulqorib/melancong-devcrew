@@ -1,10 +1,11 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
+import { getAllPosts, travelService } from "@/services/TravelService";
 
 export const AppContext = createContext();
-const fakeRes = [
+export const fakeRes = [
   {
     img: "/fake_image.avif",
     name: "Gunung Bromo 1",
@@ -32,6 +33,28 @@ const fakeRes = [
 ];
 
 export const Provider = ({ children }) => {
+  console.log("test");
+  const [allPosts, setAllPosts] = useState([]);
+
+  async function getAllPosts() {
+    try {
+      const response = await travelService.get("/posts");
+      if (response.status === 200) {
+        setAllPosts(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    travelService.get("/posts").then(({ data }) => setAllPosts(data));
+    getAllPosts().then((data) => setAllPosts(data));
+    setAllPosts(getAllPosts());
+  }, []);
+  console.log(allPosts);
+  console.count();
+
   return (
     <AppContext.Provider value={{ fakeRes }}>
       <NextUIProvider>
