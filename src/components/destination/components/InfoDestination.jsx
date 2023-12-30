@@ -34,7 +34,7 @@ const InfoDestination = ({ officeHours, address, price }) => {
         </div>
       </div>
 
-      <p className="italic">*Data di atas bisa berubah sewaktu-waktu</p>
+      <p className="pt-3 italic">*Data di atas bisa berubah sewaktu-waktu</p>
     </section>
   );
 };
