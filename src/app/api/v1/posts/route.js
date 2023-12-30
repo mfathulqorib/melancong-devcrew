@@ -164,6 +164,21 @@ export async function GET(req) {
         },
       },
     },
+    rating: {
+      select: {
+        id: true,
+        rate: true,
+        userId: true,
+      },
+    },
+    comment: {
+      select: {
+        id: true,
+        message: true,
+        userId: true,
+        createdAt: true,
+      },
+    },
   };
 
   try {
@@ -184,7 +199,7 @@ export async function GET(req) {
     }
 
     // find many
-    const [data, total] = await prisma.$transaction([
+    const [data, total, averageRatings] = await prisma.$transaction([
       prisma.post.findMany({
         where: querySearch,
         include: includeQuery,
@@ -196,26 +211,32 @@ export async function GET(req) {
       }),
 
       prisma.post.count({ where: querySearch }),
+      prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" GROUP BY "postId"`,
     ]);
+    // console.log(averageRatings);
+    const averageRatingsMap = averageRatings.reduce((acc, rating) => {
+      // console.log(rating);
+      acc[rating.postId] = rating.averageRating;
+      return acc;
+    }, {});
+
+    // console.log(averageRatingsMap);
 
     const totalPage = Math.ceil(total / limit);
-    const paginate = {
-      page,
-      limit,
-      total,
-      totalPage,
-    };
-    return res.json(
-      { data, paginate },
-      {
-        status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
+
+    const response = {
+      data: data.map((post) => ({
+        ...post,
+        averageRating: averageRatingsMap[post.id] || 0,
+      })),
+      paginate: {
+        page,
+        limit,
+        total,
+        totalPage,
       },
-    );
+    };
+    return res.json(response, { status: 200 });
   } catch (error) {
     console.log(error);
     return res.json(
