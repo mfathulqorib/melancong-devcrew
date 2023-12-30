@@ -1,9 +1,5 @@
-import { AccountNavbar } from "@/components/AccountNavbar";
-import { SearchIcon } from "@/components/homepage/components/icon/SearchIcon";
 import { PerformaReview } from "@/components/myaccount/components/PerformaReview";
 import { Reviews } from "@/components/myaccount/components/Reviews";
-import { NoReview } from "@/components/myaccount/components/icon/NoReview";
-import Image from "next/image";
 import React from "react";
 
 export default function page() {

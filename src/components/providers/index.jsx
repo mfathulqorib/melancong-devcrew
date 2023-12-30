@@ -4,7 +4,8 @@ import { NextUIProvider } from "@nextui-org/react";
 import { createContext, useEffect, useState } from "react";
 import { getAllPosts, travelService } from "@/services/TravelService";
 import { Search } from "@/lib/Search";
-import { API_URL } from "@/utils/ApiUrl";
+import { API_URL, SECRET_KEY, TOKEN } from "@/utils/ApiUrl";
+import { verify } from "jsonwebtoken";
 
 export const AppContext = createContext();
 
@@ -34,11 +35,20 @@ export const Provider = ({ children }) => {
       });
   };
 
+  // decode token
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExNjYyODRhLTNlNjUtNGI0MS05ZWIzLWFmMDJlMjIyMDVkMyIsInVzZXJuYW1lIjoibWFya28iLCJuYW1lIjoibWFya28gZWZlbmRpIiwiYmlvIjoic29sbyB0cmF2ZWxsZXIiLCJlbWFpbCI6ImRva3RlcmZhcm1hMDAxQGdtYWlsLmNvbSIsImF2YXRhciI6IiIsInJvbGVJZCI6ImRldmNyM3ctNDUtdTUzciIsImlhdCI6MTcwMzgzOTUwMCwiZXhwIjoxNzA0NDQ0MzAwfQ.jdoOLTQZvPsQ_aW0qL7hpWj5eVKbzhPgPePc-_BAfqc";
+  // const payload = verify(token, SECRET_KEY);
+  // const name = payload.name;
+  // console.log(token);
+
+  // console.log("ini payload >>", payload);
+  // console.log("ini payload.name >>", name);
+
   useEffect(() => {
     initData();
   }, []);
 
-  console.log(API_URL);
   return (
     <AppContext.Provider
       value={{
@@ -51,6 +61,8 @@ export const Provider = ({ children }) => {
         ),
         topRateDestination: Search(topRateDestination, querySearch, keyword),
         trendingDestination: Search(trendingDestination, querySearch, keyword),
+        // name,
+        // username,
       }}
     >
       <NextUIProvider>
