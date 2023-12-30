@@ -13,13 +13,13 @@ import Link from "next/link";
 
 import React from "react";
 
-export const AccountNavbar = () => {
+export const AccountNavbar = ({ name, username, slug, email }) => {
   return (
     <HeaderLayout>
       <Logo />
       <div className="flex items-center gap-3 sm:gap-4">
-        <div className="text-sm sm:text-base">
-          Halo, <span className="font-semibold">Jane Doe</span>
+        <div className="text-sm sm:text-lg">
+          Halo, <span className="font-semibold">{username}</span>
         </div>
         <Dropdown placement="bottom-end">
           <DropdownTrigger className="h-6 w-6 sm:h-8 sm:w-8 ">
@@ -29,7 +29,9 @@ export const AccountNavbar = () => {
               className="transition-transform"
               color="primary"
               name="Jane Doe"
-              src="https://ui-avatars.com/api/?background=0D8ABC&color=fff"
+              src={`https://ui-avatars.com/api/?background=random&color=fff&name=${
+                slug || ""
+              }`}
             />
           </DropdownTrigger>
           <DropdownMenu
@@ -40,11 +42,11 @@ export const AccountNavbar = () => {
             <DropdownItem
               key="profile"
               textValue="profile"
-              className="mb-1 h-14 gap-2"
+              className="hover: my-2 mb-1 gap-2 py-1"
             >
-              <p className="font-semibold">Masuk sebagai</p>
-              <p className="font-semibold">Jason Hughes</p>
-              <p className="text-xs font-normal">zoey@example.com</p>
+              <p className="mb-1 text-base font-semibold">Masuk sebagai</p>
+              <p className="text-sm font-semibold">{name}</p>
+              <p className="text-xs font-normal">{email}</p>
             </DropdownItem>
             <DropdownItem key="beranda" textValue="beranda">
               <Link href={"/home"}>

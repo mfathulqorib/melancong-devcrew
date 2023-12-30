@@ -18,3 +18,7 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-[#454f6b];
 }
+
+#half-star {
+  @apply size-3 sm:size-4;
+}
