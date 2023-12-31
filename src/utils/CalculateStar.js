@@ -6,17 +6,24 @@ export const calculateStars = (rating) => {
   const fullStars = Math.floor(rating);
 
   for (let i = 0; i < fullStars; i++) {
-    star.push(<Star fill="#FDB200" stroke="#FDB200" size={16} />);
+    star.push(
+      <Star
+        fill="#FDB200"
+        stroke="#FDB200"
+        className="size-3 sm:size-4"
+        size={16}
+      />,
+    );
   }
 
   if (rating % 2 !== 0 && rating !== 5) {
-    star.push(<HalfStar size={16} fill={"#FDB200"} />);
+    star.push(<HalfStar fill={"#FDB200"} />);
   }
 
   const emptyStars = 5 - star.length;
 
   for (let i = 0; i < emptyStars; i++) {
-    star.push(<Star stroke="#FDB200" size={16} />);
+    star.push(<Star stroke="#FDB200" className="size-3 sm:size-4" size={16} />);
   }
 
   return star;

@@ -21,13 +21,13 @@ export const Hero = () => {
         <section className=" flex h-full flex-col items-center justify-between gap-5 text-center">
           <HeroHeader />
           <div className="flex flex-col items-center gap-3 sm:gap-5">
-            <div className="flex w-[200px] items-center gap-3 rounded-3xl bg-white px-4 py-2 text-gray-500 sm:w-[360px]">
+            <div className="flex w-[300px] items-center gap-3 rounded-3xl bg-white px-4 py-2 text-gray-500 sm:w-[360px]">
               <SearchIcon />
               <input
                 type="text"
                 name="filtered-location"
                 autoComplete="filtered-location"
-                placeholder="Jakarta"
+                placeholder="Cari berdasarkan kota/lokasi"
                 onChange={(event) => setKeyword(event.target.value)}
                 className="w-full px-3 text-sm focus:outline-none sm:text-base"
               />

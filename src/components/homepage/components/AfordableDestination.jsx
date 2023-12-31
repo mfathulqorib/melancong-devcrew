@@ -8,12 +8,6 @@ import FuzzySearch from "fuzzy-search";
 
 export const AfordableDestination = () => {
   const { affordableDestination } = useContext(AppContext);
-  // const searcher = new FuzzySearch(
-  //   affordableDestination,
-  //   ["city", "title"],
-  //   {},
-  // );
-  // const result = searcher.search(keyword);
 
   return (
     <main className="my-2 px-[5vw] py-2 sm:my-4 sm:px-[10vw] ">
