@@ -13,6 +13,7 @@ import {
 //import mapbox gl
 import mapboxgl from "mapbox-gl";
 import { MapPin } from "lucide-react";
+import Link from "next/link";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX;
 
 const CardMap = ({ latitude, longitude, address, title }) => {
@@ -68,9 +69,13 @@ const CardMap = ({ latitude, longitude, address, title }) => {
               <p className="text-tiny text-white/60">{address}</p>
             </div>
           </div>
-          <Button radius="full" size="sm">
-            Get Direction
-          </Button>
+          <Link
+            href={`/destination/direction?longitude=${longitude}&latitude=${latitude}`}
+          >
+            <Button radius="full" size="sm">
+              Direction
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>

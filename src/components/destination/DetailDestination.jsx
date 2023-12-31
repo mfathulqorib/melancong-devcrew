@@ -39,7 +39,7 @@ export const DetailDestination = ({ data, postId }) => {
       <ImageGallery items={images} showNav={false} autoPlay={true} />
       <div className=" box-border p-5 shadow-md ">
         <TitleHero
-          title={data.title}
+          title={data?.title}
           city={data?.city}
           address={data?.address}
         />
