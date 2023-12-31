@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import {
   Card,
   CardHeader,
@@ -8,7 +10,38 @@ import {
   Button,
 } from "@nextui-org/react";
 
-const CardMap = () => {
+//import mapbox gl
+import mapboxgl from "mapbox-gl";
+import { MapPin } from "lucide-react";
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX;
+
+const CardMap = ({ latitude, longitude, address, title }) => {
+  const mapContainer = useRef(null);
+
+  const initMap = () => {
+    const map = new mapboxgl.Map({
+      // fill container from use reff current
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      // style: "mapbox://styles/mapbox/outdoors-v12",
+      center: [longitude ? longitude : "", latitude ? latitude : ""],
+      zoom: 15,
+    });
+
+    // make popup text
+    new mapboxgl.Popup({
+      closeOnClick: false,
+    })
+      .setLngLat([longitude ? longitude : "", latitude ? latitude : ""])
+      .setHTML(`<h6>${title}</h6><hr/><p><i>${address}</i></p>`)
+      // after we config popup - we must adding to map init
+      .addTo(map);
+  };
+
+  useEffect(() => {
+    initMap();
+  }, []);
+
   return (
     <div>
       <Card
@@ -18,28 +51,25 @@ const CardMap = () => {
         <CardHeader className="absolute top-1 z-10 flex-col items-start">
           <p className="text-tiny font-bold uppercase">lOKASI</p>
         </CardHeader>
-        <Image
-          removeWrapper
-          alt="Relaxing app background"
-          className="z-0 h-full w-full object-cover"
-          src="/images/card-example-5.jpeg"
+        {/* card body */}
+        <div
+          ref={mapContainer}
+          className="h-[300px] w-full"
+          style={{ height: "350px" }}
         />
+        {/* end map */}
         <CardFooter className="absolute bottom-0 z-10 border-t-1 border-default-600 bg-black/40 dark:border-default-100">
           <div className="flex flex-grow items-center gap-2">
-            <Image
-              alt="Breathing app icon"
-              className="h-11 w-10 rounded-full bg-black"
-              src="/images/breathing-app-icon.jpeg"
-            />
+            <div>
+              <MapPin className=" text-white/60 " />
+            </div>
             <div className="flex flex-col">
-              <p className="text-tiny text-white/60">Breathing App</p>
-              <p className="text-tiny text-white/60">
-                Get a good night's sleep.
-              </p>
+              <p className="text-tiny text-white/60">{title}</p>
+              <p className="text-tiny text-white/60">{address}</p>
             </div>
           </div>
           <Button radius="full" size="sm">
-            Get App
+            Get Direction
           </Button>
         </CardFooter>
       </Card>

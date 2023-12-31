@@ -54,7 +54,12 @@ export const DetailDestination = ({ data, postId }) => {
       </Card>
 
       <Card className="rounded-none p-6 ">
-        <CardMap />
+        <CardMap
+          latitude={data?.latitude}
+          longitude={data?.longitude}
+          address={data?.address}
+          title={data?.title}
+        />
       </Card>
       <Card className="rounded-none p-6 ">
         <Description desc={data?.desc} />
