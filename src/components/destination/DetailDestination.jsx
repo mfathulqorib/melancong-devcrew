@@ -50,6 +50,7 @@ export const DetailDestination = ({ data, postId }) => {
           address={data?.address}
           officeHours={data?.officeHours}
           price={data?.budget?.toLocaleString("ID")}
+          title={data?.title}
         />
       </Card>
 

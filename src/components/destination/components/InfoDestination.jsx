@@ -1,14 +1,12 @@
 import React from "react";
 
-const InfoDestination = ({ officeHours, address, price }) => {
+const InfoDestination = ({ officeHours, address, price, title }) => {
   return (
     <section className=" text-[10px]">
       <div className="space-y-3">
         <div className="space-y-2  font-semibold ">
-          <h3 className="text-[16px]">Informasi Umum Tari Kecak Uluwatu</h3>
-          <h4 className="text-[14px]">
-            Ringkasan Informasi Tari Kecak Uluwatu
-          </h4>
+          <h3 className="text-[16px]">Informasi Umum {title}</h3>
+          <h4 className="text-[14px]">Ringkasan Informasi {title}</h4>
         </div>
 
         <div className="space-y-3 text-[13px]">
