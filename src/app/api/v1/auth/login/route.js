@@ -45,6 +45,7 @@ export async function POST(req) {
       bio: findUser.bio,
       email: findUser.email,
       avatar: findUser.avatar,
+      roleId: findUser.roleId,
     };
 
     // Buat token
