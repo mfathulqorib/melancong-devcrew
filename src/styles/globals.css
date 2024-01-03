@@ -22,3 +22,18 @@ html {
 #half-star {
   @apply size-3 sm:size-4;
 }
+
+.image-gallery {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.image-gallery-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: center center;
+}

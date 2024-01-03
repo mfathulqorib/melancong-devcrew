@@ -34,7 +34,7 @@ export const DetailDestination = ({ data, postId }) => {
     destinateImages();
   }, []);
   return (
-    <div className="space-y-4 ">
+    <div className="space-y-4 p-5">
       {/* <CoverImages /> */}
       <ImageGallery items={images} showNav={false} autoPlay={true} />
       <div className=" box-border p-5 shadow-md ">
