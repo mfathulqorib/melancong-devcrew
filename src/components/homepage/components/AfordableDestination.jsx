@@ -4,7 +4,6 @@ import React, { useContext } from "react";
 import { ReviewCard } from "./ReviewCard";
 import { Header3 } from "./Header3";
 import { AppContext } from "@/components/providers";
-import FuzzySearch from "fuzzy-search";
 
 export const AfordableDestination = () => {
   const { affordableDestination } = useContext(AppContext);

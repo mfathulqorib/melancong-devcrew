@@ -50,16 +50,6 @@ export const Provider = ({ children }) => {
       });
   };
 
-  // decode token
-  // const token =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExNjYyODRhLTNlNjUtNGI0MS05ZWIzLWFmMDJlMjIyMDVkMyIsInVzZXJuYW1lIjoibWFya28iLCJuYW1lIjoibWFya28gZWZlbmRpIiwiYmlvIjoic29sbyB0cmF2ZWxsZXIiLCJlbWFpbCI6ImRva3RlcmZhcm1hMDAxQGdtYWlsLmNvbSIsImF2YXRhciI6IiIsInJvbGVJZCI6ImRldmNyM3ctNDUtdTUzciIsImlhdCI6MTcwMzgzOTUwMCwiZXhwIjoxNzA0NDQ0MzAwfQ.jdoOLTQZvPsQ_aW0qL7hpWj5eVKbzhPgPePc-_BAfqc";
-  // const payload = verify(token, SECRET_KEY);
-  // const name = payload.name;
-  // console.log(token);
-
-  // console.log("ini payload >>", payload);
-  // console.log("ini payload.name >>", name);
-
   useEffect(() => {
     initData();
   }, []);
@@ -70,6 +60,7 @@ export const Provider = ({ children }) => {
         setKeyword,
         handleLogin,
         keyword,
+        router,
         affordableDestination: Search(
           affordableDestination,
           querySearch,

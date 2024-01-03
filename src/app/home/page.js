@@ -19,7 +19,7 @@ export default function Home() {
     <main>
       <AccountNavbar
         name={capitalizeEachWord(name)}
-        username={capitalizeEachWord(username)}
+        username={username}
         slug={slugForUiApi(name)}
         email={email}
       />

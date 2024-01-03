@@ -23,17 +23,14 @@ export const useLogin = () => {
     setLoading(true);
     travelService
       .post("/auth/login", loginData)
-      .then(({ data }) => {
-        console.log(data);
+      .then(() => {
         setLoading(false);
         toast.success("Login succesfully, redirecting...");
         setTimeout(() => router.push("/home"), 500);
-        return;
       })
       .catch((error) => {
         setLoading(false);
         toast.error(`${error.response.data.error}`);
-        return;
       });
   };
 

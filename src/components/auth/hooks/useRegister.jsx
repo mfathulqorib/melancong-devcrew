@@ -27,10 +27,6 @@ export const useRegister = () => {
     formData.append("bio", bio);
     formData.append("password", password);
 
-    // for (const value of formData.values()) {
-    //   console.log(value);
-    // }
-
     if (password !== confirmPassword) {
       setLoading(false);
       toast.error("Konfirmasi password tidak cocok");
@@ -39,21 +35,18 @@ export const useRegister = () => {
 
     travelService
       .post("/auth/register", formData)
-      .then(({ data }) => {
-        console.log(data);
+      .then(() => {
         setLoading(false);
         toast.success(
-          "Akun berhasil dibuat, link konfirmasi akun telah dikirimkan ke alamat email",
-          { duration: 5000 },
+          "Akun berhasil dibuat, silahkan cek email untuk verifikasi :)",
+          { duration: 3500 },
         );
-        // setTimeout(() => router.push("/login"), 5000);
-        return;
+        setTimeout(() => router.push("/login"), 3500);
       })
       .catch((error) => {
         setLoading(false);
         console.log(error.response.data.error);
         toast.error(`${error.response.data.error}`);
-        return;
       });
   };
   return { handleRegister, isLoading };

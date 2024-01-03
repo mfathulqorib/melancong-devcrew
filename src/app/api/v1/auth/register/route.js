@@ -67,9 +67,6 @@ export async function POST(req) {
       },
     });
 
-    console.log(createTokenEmail);
-    // console.log(createTokenEmail.data.token);
-
     if (!createTokenEmail) {
       return res.json(
         { error: `failed create Token verify user, ${error}` },

@@ -6,7 +6,6 @@ import { sign } from "jsonwebtoken";
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  console.log({ email, password });
   try {
     if (!email && !password) {
       return res.json(
@@ -15,14 +14,11 @@ export async function POST(req) {
       );
     }
 
-    console.log("ok");
     const findUser = await prisma.user.findUnique({
       where: {
         email,
       },
     });
-
-    console.log("ok2");
 
     if (!findUser) {
       return res.json({ error: "User not found" }, { status: 404 });

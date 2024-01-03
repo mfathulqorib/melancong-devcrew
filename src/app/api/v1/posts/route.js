@@ -213,14 +213,10 @@ export async function GET(req) {
       prisma.post.count({ where: querySearch }),
       prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" GROUP BY "postId"`,
     ]);
-    // console.log(averageRatings);
     const averageRatingsMap = averageRatings.reduce((acc, rating) => {
-      // console.log(rating);
       acc[rating.postId] = rating.averageRating;
       return acc;
     }, {});
-
-    // console.log(averageRatingsMap);
 
     const totalPage = Math.ceil(total / limit);
 

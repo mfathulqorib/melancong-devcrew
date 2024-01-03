@@ -1,4 +1,3 @@
-import { Button } from "@nextui-org/react";
 import React from "react";
 
 export const EmailTheme = ({ userId: userId, name: name, token: token }) => {
