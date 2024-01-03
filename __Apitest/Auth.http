@@ -1,17 +1,32 @@
-###Register
+### Register
 
 POST   http://localhost:3000/api/v1/auth/register
 
 {
-    "username":"marko",
-    "name":"marko efendi",
-    "email":"dokterfarma001@gmail.com",
+    "username":"rusli",
+    "name":"rusli efendi",
+    "email":"rusli@mail.com",
     "password":"password",
     "bio":"lajang",
-    "avatar":"marko.jpeg"
-  
-
 }
 
-###find all users
-GET http://localhost:3000/api/v1/auth/register
+
+### Login
+
+POST http://localhost:3000/api/v1/auth/login
+
+{
+    "email":"mfathulqorib97@gmail.com",
+    "password":"password"
+}
+
+### Logout
+
+POST http://localhost:3000/api/v1/auth/logout
+
+
+### Email confirmation user
+
+PATCH    http://localhost:3000/api/v1/auth/confirmation?user=387a07d0-c0e2-4902-92e7-57e3fe161177&token=ecdfb0c9bfd2003fc8541876a6ce2f40
+
+

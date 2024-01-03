@@ -12,41 +12,117 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) // Primary key yang jadi index
-  username  String   @unique
-  name      String
-  email     String   @unique // !index
-  password  String
-  avatar    String
-  roleId    String   @default("4212ganteng-45-u53r")
-  role      Role     @relation(fields: [roleId], references: [id],onDelete: Cascade,onUpdate: Cascade)
-  bio String
-  token TokenEmail? 
-  isVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String      @id @default(uuid()) // Primary key yang jadi index
+  username   String      @unique
+  name       String
+  email      String      @unique // !index
+  password   String
+  avatar     String
+  roleId     String      @default("devcr3w-45-u53r")
+  role       Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bio        String      @db.Text
+  token      TokenEmail?
+  post       Post[]
+  category   Category[]
+  comment    Comment[]
+  rating     Rating[]
+  isVerified Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   @@index([email])
   @@index([username])
 }
 
 model Role {
-  id   String @id @default(uuid())
-  name String
-  user User []
-   createdAt DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  user      User[]
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model TokenEmail{
-  id String @id @default(uuid())
-  token String
-  userId String @unique
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade,onUpdate: Cascade)
- createdAt DateTime @default(now())
+model TokenEmail {
+  id        String   @id @default(uuid())
+  token     String
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([token])
+}
+
+model Category {
+  id           String         @id @default(uuid())
+  name         String         @unique
+  slug         String
+  image        String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory PostCategory[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Post {
+  id           String         @id @default(uuid())
+  title        String
+  desc         String         @db.Text
+  budget       Int
+  slug         String
+  officeHours  String
+  latitude     String
+  longitude    String
+  address      String
+  city         String
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory PostCategory[]
+  postImage    PostImage[]
+  rating       Rating[]
+  comment      Comment[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model PostCategory {
+  id         String   @id @default(uuid())
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PostImage {
+  id        String   @id @default(uuid())
+  name      String
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Rating {
+  id        String   @id @default(uuid())
+  rate      Float
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
-
-
+model Comment {
+  id        String   @id @default(uuid())
+  message   String   @db.Text
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
