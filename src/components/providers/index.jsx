@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import { NextUIProvider } from "@nextui-org/react";
 import { createContext, useEffect, useState } from "react";
-import { getAllPosts, travelService } from "@/services/TravelService";
+import { travelService } from "@/services/TravelService";
 import { Search } from "@/lib/Search";
-import { API_URL, SECRET_KEY, TOKEN } from "@/utils/ApiUrl";
-import { verify } from "jsonwebtoken";
+import { useRouter } from "next/navigation";
+import { Toaster } from "react-hot-toast";
 
 export const AppContext = createContext();
 
@@ -15,6 +15,7 @@ export const Provider = ({ children }) => {
   const [topRateDestination, setTopRateDestination] = useState([]);
   const [trendingDestination, setTrendingDestination] = useState([]);
   const querySearch = ["city", "title"];
+  const router = useRouter();
 
   const initData = () => {
     travelService
@@ -29,6 +30,20 @@ export const Provider = ({ children }) => {
         setTrendingDestination(
           data.data.slice().sort((a, b) => b.comment.length - a.comment.length),
         );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleLogin = () => {
+    travelService
+      .post("/auth/login", {
+        email: "mfathulqorib97@gmail.com",
+        password: "password",
+      })
+      .then(() => {
+        router.push("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -53,6 +68,7 @@ export const Provider = ({ children }) => {
     <AppContext.Provider
       value={{
         setKeyword,
+        handleLogin,
         keyword,
         affordableDestination: Search(
           affordableDestination,
@@ -66,6 +82,7 @@ export const Provider = ({ children }) => {
       }}
     >
       <NextUIProvider>
+        <Toaster />
         <div>{children}</div>
       </NextUIProvider>
     </AppContext.Provider>

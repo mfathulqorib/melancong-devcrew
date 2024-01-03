@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { Button, Input } from "@nextui-org/react";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
-import { EyeSlashFilledIcon } from "@/components/auth/icon/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@/components/auth/icon/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/auth/components/icon/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/components/auth/components/icon/EyeFilledIcon";
 
 export const Register = () => {
   const placements = ["outside"];

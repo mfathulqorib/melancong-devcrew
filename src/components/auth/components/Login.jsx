@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Button, Input } from "@nextui-org/react";
 import { Logo } from "@/components/Logo";
-import { EyeSlashFilledIcon } from "@/components/auth/icon/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@/components/auth/icon/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "@/components/auth/components/icon/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/components/auth/components/icon/EyeFilledIcon";
+import { useLogin } from "../hooks/useLogin";
 
 export const Login = () => {
-  const placements = ["outside"];
+  const { handleLogin, loginData, isLoading, handleChange } = useLogin();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const { email, password } = loginData;
+  const placements = ["outside"];
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -29,6 +32,9 @@ export const Login = () => {
                   key={placement}
                   type="Email"
                   label="Email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
                   labelPlacement={placement}
                   placeholder="Write your email"
                   className="mb-12"
@@ -40,6 +46,9 @@ export const Login = () => {
                   key={placement}
                   type={isVisible ? "text" : "password"}
                   label="Password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
                   labelPlacement={placement}
                   placeholder="*******"
                   className="mb-10"
@@ -63,6 +72,8 @@ export const Login = () => {
             <Button
               color="primary"
               className="w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              onClick={handleLogin}
+              isLoading={isLoading}
             >
               Sign in
             </Button>

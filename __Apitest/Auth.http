@@ -16,7 +16,7 @@ POST   http://localhost:3000/api/v1/auth/register
 POST http://localhost:3000/api/v1/auth/login
 
 {
-    "email":"dokterfarma001@gmail.com",
+    "email":"mfathulqorib97@gmail.com",
     "password":"password"
 }
 

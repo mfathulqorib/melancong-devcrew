@@ -9,7 +9,10 @@ export async function POST(req) {
   console.log({ email, password });
   try {
     if (!email && !password) {
-      return res.json({ error: "email and password is required" }, { status: 400 });
+      return res.json(
+        { error: "email and password is required" },
+        { status: 400 },
+      );
     }
 
     console.log("ok");
@@ -26,7 +29,10 @@ export async function POST(req) {
     }
 
     if (!findUser.isVerified) {
-      return res.json({ error: "Please verify your account first" }, { status: 401 });
+      return res.json(
+        { error: "Please verify your account first" },
+        { status: 401 },
+      );
     }
 
     // Bandingkan password yang diinput dengan password di database
@@ -34,7 +40,7 @@ export async function POST(req) {
 
     // Jika password tidak cocok, kirim pesan error
     if (!comparePassword) {
-      return res.json({ error: "Invalid Credentials" }, { status: 401 });
+      return res.json({ error: "Invalid Password" }, { status: 401 });
     }
 
     // Jika password cocok, kirim data user
@@ -50,12 +56,18 @@ export async function POST(req) {
 
     // Buat token
     const token = sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
-    const cookieResponse = res.json({ data: payload, message: "Login succesfully" }, { status: 200 });
+    const cookieResponse = res.json(
+      { data: payload, message: "Login succesfully" },
+      { status: 200 },
+    );
     cookieResponse.cookies.set("token", token);
 
     return cookieResponse;
   } catch (error) {
     console.log(error);
-    return res.json({ error: "Something went wrong. Please try again later" }, { status: 500 });
+    return res.json(
+      { error: "Something went wrong. Please try again later" },
+      { status: 500 },
+    );
   }
 }
