@@ -1,6 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+
 //import mapbox gl direction
 import Directions from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import mapboxgl from "mapbox-gl";
@@ -8,6 +10,7 @@ import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX;
 
 const Direction = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [longitude, setLongitude] = useState(110.7241664);
   const [latitude, setLatitude] = useState(-6.9515962);
@@ -74,12 +77,20 @@ const Direction = () => {
 
   return (
     <div>
-      Direction para
-      <div
-        ref={mapContainer}
-        className="map-container"
-        style={{ height: "400px" }}
-      />
+      <Card className="py-4">
+        <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
+          <p className="text-tiny font-bold uppercase">Daily Mix</p>
+          <small className="text-default-500">12 Tracks</small>
+          <h4 className="text-large font-bold">Frontend Radio</h4>
+        </CardHeader>
+        <CardBody className="overflow-visible py-2">
+          <div
+            ref={mapContainer}
+            className="map-container"
+            style={{ height: "400px" }}
+          />
+        </CardBody>
+      </Card>
     </div>
   );
 };

@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Image,
-  Button,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Button } from "@nextui-org/react";
 
 //import mapbox gl
 import mapboxgl from "mapbox-gl";
