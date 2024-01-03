@@ -1,8 +1,15 @@
 import { Inter as FontSans } from "next/font/google";
 import { Provider } from "@/components/providers";
-
+import xhr2 from "xhr2";
 import "@/styles/globals.css";
 
+//mapbox gl CSS
+import "mapbox-gl/dist/mapbox-gl.css";
+//mapbox gl geocoder CSS
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+//mapbox gl directions CSS
+import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+global.XMLHttpRequest = xhr2;
 const fontSans = FontSans({ subsets: ["latin"] });
 
 export const metadata = {
