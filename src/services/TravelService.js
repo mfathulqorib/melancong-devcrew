@@ -8,8 +8,4 @@ const axios = require("axios");
 
 export const travelService = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${TOKEN}`,
-  },
 });

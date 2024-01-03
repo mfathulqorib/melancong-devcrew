@@ -7,16 +7,19 @@ import { AccountNavbar } from "@/components/AccountNavbar";
 import { SECRET_KEY, TOKEN } from "@/utils/ApiUrl";
 import { jwtExtract } from "@/utils/jwtExtract";
 import { capitalizeEachWord, slugForUiApi } from "@/utils/sentenceTraversal";
+import { cookies } from "next/headers";
 
 export default function Home() {
-  const payload = jwtExtract(TOKEN, SECRET_KEY);
+  const cookieStore = cookies();
+  const token = cookieStore.get("token").value;
+  const payload = jwtExtract(token, SECRET_KEY);
   const { name, username, email } = payload;
 
   return (
     <main>
       <AccountNavbar
         name={capitalizeEachWord(name)}
-        username={capitalizeEachWord(username)}
+        username={username}
         slug={slugForUiApi(name)}
         email={email}
       />
