@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useContext } from "react";
 import { HeaderLayout } from "@/components/HeaderLayout";
 import { Logo } from "@/components/Logo";
 import {
@@ -9,11 +10,12 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
-import Link from "next/link";
-
-import React from "react";
+import { AppContext } from "./providers";
+import { useLogout } from "./auth/hooks/useLogout";
 
 export const AccountNavbar = ({ name, username, slug, email }) => {
+  const { router } = useContext(AppContext);
+  const { handleLogout } = useLogout();
   return (
     <HeaderLayout>
       <Logo />
@@ -48,15 +50,23 @@ export const AccountNavbar = ({ name, username, slug, email }) => {
               <p className="text-sm font-semibold">{name}</p>
               <p className="text-xs font-normal">{email}</p>
             </DropdownItem>
-            <DropdownItem key="beranda" textValue="beranda">
-              <Link href={"/home"}>
-                <div>Beranda</div>
-              </Link>
+            <DropdownItem
+              key="beranda"
+              textValue="beranda"
+              onClick={() => {
+                router.push("/home");
+              }}
+            >
+              <div>Beranda</div>
             </DropdownItem>
-            <DropdownItem key="akun" textValue="akun">
-              <Link href={"/myaccount"}>
-                <div>Akun</div>
-              </Link>
+            <DropdownItem
+              key="akun"
+              textValue="akun"
+              onClick={() => {
+                router.push("/dashboard/user");
+              }}
+            >
+              <div>Akun</div>
             </DropdownItem>
             <DropdownItem key="pengaturan" textValue="pengaturan">
               <div className="flex gap-2">
@@ -74,10 +84,13 @@ export const AccountNavbar = ({ name, username, slug, email }) => {
                 </p>
               </div>
             </DropdownItem>
-            <DropdownItem key="logout" textValue="logout" color="danger">
-              <Link href={"/"}>
-                <div>Log Out</div>
-              </Link>
+            <DropdownItem
+              key="logout"
+              textValue="logout"
+              color="danger"
+              onClick={handleLogout}
+            >
+              Log Out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
