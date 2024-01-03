@@ -7,10 +7,7 @@ POST   http://localhost:3000/api/v1/auth/register
     "name":"rusli efendi",
     "email":"rusli@mail.com",
     "password":"password",
-    "roleId":"31c7ae50-689a-41e6-a10b-ec322010cead",
     "bio":"lajang",
-    "avatar":"rusli.jpeg"
-
 }
 
 
@@ -26,6 +23,6 @@ POST http://localhost:3000/api/v1/auth/login
 
 ### Email confirmation user
 
-PATCH    http://localhost:3000/api/v1/auth/confirmation?user=f49202b5-2658-4580-aabf-46c0696df6fc&token=eb97ce257ef3ba8a001cd7b06569d4ce
+PATCH    http://localhost:3000/api/v1/auth/confirmation?user=387a07d0-c0e2-4902-92e7-57e3fe161177&token=ecdfb0c9bfd2003fc8541876a6ce2f40
 
 
