@@ -1,3 +1,4 @@
+import { API_URL } from "@/utils/ApiUrl";
 import React from "react";
 
 export const EmailTheme = ({ userId: userId, name: name, token: token }) => {
@@ -27,7 +28,7 @@ export const EmailTheme = ({ userId: userId, name: name, token: token }) => {
         <button>
           <a
             className=""
-            href={`${process.env.BASE_URL}/api/v1/auth/confirmation?user=${userId}&token=${token}`}
+            href={`${API_URL}/auth/confirmation?user=${userId}&token=${token}`}
             target="_blank"
           >
             <span className="">Verify</span> and complete registration
