@@ -23,7 +23,8 @@ export const useLogin = () => {
     setLoading(true);
     travelService
       .post("/auth/login", loginData)
-      .then((data) => {
+      .then(({ data }) => {
+        console.log(data);
         setLoading(false);
         toast.success("Login succesfully, redirecting...");
         setTimeout(() => router.push("/home"), 500);

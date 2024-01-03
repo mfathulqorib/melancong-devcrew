@@ -13,7 +13,7 @@ export const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { email, password } = loginData;
-  const placements = ["outside"];
+  const placement = "outside";
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
@@ -27,47 +27,41 @@ export const Login = () => {
               Login
             </h1>
             <div className="mb-4 mt-4 space-y-4 md:space-y-6">
-              {placements.map((placement) => (
-                <Input
-                  key={placement}
-                  type="Email"
-                  label="Email"
-                  name="email"
-                  value={email}
-                  onChange={handleChange}
-                  labelPlacement={placement}
-                  placeholder="Write your email"
-                  className="mb-12"
-                />
-              ))}
+              <Input
+                type="Email"
+                label="Email"
+                name="email"
+                value={email}
+                onChange={handleChange}
+                labelPlacement={placement}
+                placeholder="Write your email"
+                className="mb-12"
+              />
 
-              {placements.map((placement) => (
-                <Input
-                  key={placement}
-                  type={isVisible ? "text" : "password"}
-                  label="Password"
-                  name="password"
-                  value={password}
-                  onChange={handleChange}
-                  labelPlacement={placement}
-                  placeholder="*******"
-                  className="mb-10"
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onMouseDown={toggleVisibility}
-                      onMouseUp={toggleVisibility}
-                    >
-                      {isVisible ? (
-                        <EyeSlashFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
-                      ) : (
-                        <EyeFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
-                      )}
-                    </button>
-                  }
-                />
-              ))}
+              <Input
+                type={isVisible ? "text" : "password"}
+                label="Password"
+                name="password"
+                value={password}
+                onChange={handleChange}
+                labelPlacement={placement}
+                placeholder="*******"
+                className="mb-10"
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onMouseDown={toggleVisibility}
+                    onMouseUp={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <EyeSlashFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
+                    ) : (
+                      <EyeFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
+                    )}
+                  </button>
+                }
+              />
             </div>
             <Button
               color="primary"

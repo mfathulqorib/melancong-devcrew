@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react";
 import React from "react";
 
-export const EmailTheme = ({ name, token }) => {
+export const EmailTheme = ({ userId: userId, name: name, token: token }) => {
   const appName = process.env.APP_NAME;
   return (
     <div>
@@ -28,7 +28,7 @@ export const EmailTheme = ({ name, token }) => {
         <button>
           <a
             className=""
-            href={`${process.env.BASE_URL}/confirmation?confirmation_token=${token}`}
+            href={`${process.env.BASE_URL}/api/v1/auth/confirmation?user=${userId}&token=${token}`}
             target="_blank"
           >
             <span className="">Verify</span> and complete registration

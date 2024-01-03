@@ -12,21 +12,20 @@ export async function POST(req) {
   const name = formData.get("name") || "";
   const email = formData.get("email") || "";
   const password = formData.get("password") || "";
-  // const roleId = formData.get("roleId") || process.env.ROLE_ID_USER;
+  const roleId = formData.get("roleId") || process.env.ROLE_ID_USER;
   const bio = formData.get("bio") || "";
   const isVerified = formData.get("isVerified") || false;
-  // const avatar = formData.get("avatar") || "";
+  const avatar = formData.get("avatar") || "";
   const token = crypto.randomBytes(16).toString("hex");
-  const mailData = {
-    from: process.env.RESEND_EMAIL,
-    to: [email],
-    subject: "Verify your email for Melancong",
-    react: EmailTheme({ name: name, token: token }),
-  };
+  const findUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
 
   try {
-    if (!email) {
-      return res.json({ error: "Email is Required" }, { status: 400 });
+    if (findUser) {
+      return res.json({ error: "Email already registered" }, { status: 404 });
     }
 
     const data = {
@@ -68,12 +67,26 @@ export async function POST(req) {
       },
     });
 
+    console.log(createTokenEmail);
+    // console.log(createTokenEmail.data.token);
+
     if (!createTokenEmail) {
       return res.json(
         { error: `failed create Token verify user, ${error}` },
         { status: 500 },
       );
     }
+
+    const mailData = {
+      from: process.env.RESEND_EMAIL,
+      to: [email],
+      subject: "Verify your email for Melancong",
+      react: EmailTheme({
+        name,
+        userId: createTokenEmail.userId,
+        token: createTokenEmail.token,
+      }),
+    };
 
     const sendEmail = await resend.emails.send(mailData);
     if (sendEmail.error) {
