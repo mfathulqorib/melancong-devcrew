@@ -2,7 +2,7 @@ import React from 'react'
 
 const Destination = () => {
   return (
-    <div>home destinat</div>
+    <div>home destinate</div>
   )
 }
 
