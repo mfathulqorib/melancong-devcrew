@@ -12,13 +12,17 @@ import {
 } from "@nextui-org/react";
 import { AppContext } from "./providers";
 import { useLogout } from "./auth/hooks/useLogout";
+import Link from "next/link";
 
 export const AccountNavbar = ({ name, username, slug, email }) => {
   const { router } = useContext(AppContext);
   const { handleLogout } = useLogout();
   return (
     <HeaderLayout>
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
+
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="text-sm sm:text-lg">
           Halo, <span className="font-semibold">{username}</span>
