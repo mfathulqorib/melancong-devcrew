@@ -1,6 +1,11 @@
-import { MyAccountLayout } from "@/components/myaccount/components/MyAccountLayout";
+import { Header } from "@/components/Header";
 import React from "react";
 
 export default function Layout({ children }) {
-  return <MyAccountLayout>{children}</MyAccountLayout>;
+  return (
+    <div>
+      <Header />
+      {children}
+    </div>
+  );
 }
