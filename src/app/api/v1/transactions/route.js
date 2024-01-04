@@ -47,9 +47,9 @@ export async function POST(req) {
         email: user.email,
       },
       callbacks: {
-        finish: `${process.env.BASE_URL}/order-status?transaction_id=${transactionId}`,
-        error: `${process.env.BASE_URL}/order-status?transaction_id=${transactionId}`,
-        pending: `${process.env.BASE_URL}/order-status?transaction_id=${transactionId}`,
+        finish: `${process.env.BASE_URL}/transaction/status?transaction_id=${transactionId}`,
+        error: `${process.env.BASE_URL}/transaction/status?transaction_id=${transactionId}`,
+        pending: `${process.env.BASE_URL}/transaction/status?transaction_id=${transactionId}`,
       },
     };
 

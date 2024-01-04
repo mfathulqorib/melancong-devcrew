@@ -16,7 +16,6 @@ const getDetailPost = async (postId) => {
 const page = async ({ params }) => {
   const { destinationId } = params;
   const { data } = await getDetailPost(destinationId);
-  console.log(data);
   return (
     <div>
       <DetailDestination data={data} postId={destinationId} />
