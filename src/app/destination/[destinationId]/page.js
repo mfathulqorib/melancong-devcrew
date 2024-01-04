@@ -1,7 +1,5 @@
 import { DetailDestination } from "@/components/destination/DetailDestination";
-import React from "react";
 import { API_URL } from "@/utils/ApiUrl";
-import { midtransClientKey } from "@/config/apiUrl";
 
 const getDetailPost = async (postId) => {
   try {
@@ -15,7 +13,6 @@ const getDetailPost = async (postId) => {
   }
 };
 
-console.log("env", midtransClientKey);
 const page = async ({ params }) => {
   const { destinationId } = params;
   const { data } = await getDetailPost(destinationId);

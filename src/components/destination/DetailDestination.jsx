@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, useCheckbox } from "@nextui-org/react";
+import { Card } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import CardMap from "./components/CardMap";
 import Description from "./components/Description";
@@ -11,12 +11,11 @@ import ImageGallery from "react-image-gallery";
 
 //import imageGallery CSS
 import { imageUrl } from "@/config/apiUrl";
-import "react-image-gallery/styles/css/image-gallery.css";
-import Link from "next/link";
-import useSnap from "./hooks/useSnap";
-import useCheckout from "./hooks/useCheckout";
-import { useRouter } from "next/navigation";
 import { API_URL } from "@/utils/ApiUrl";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import "react-image-gallery/styles/css/image-gallery.css";
+import useSnap from "./hooks/useSnap";
 
 export const DetailDestination = ({ data, postId }) => {
   const images = [];
@@ -57,7 +56,7 @@ export const DetailDestination = ({ data, postId }) => {
     if (response && response.status === "success") {
       // navigate(`/order-status?transaction_id=${response.data.id}`)
       setSnapShow(true);
-      snapEmbed(response.data.snapToken, "snap-container", {
+      snapEmbed(response.data?.snapToken, "snap-container", {
         onSuccess: function (result) {
           console.log("success", result);
           navigate(`/order-status?transaction_id=${response.data.id}`);
@@ -121,8 +120,7 @@ export const DetailDestination = ({ data, postId }) => {
           </Link>
         </div>
       ) : (
-        <div>
-          {snapShow}
+        <div className="h-full w-full">
           <div id="snap-container"></div>
         </div>
       )}

@@ -1,17 +1,18 @@
 "use client";
 
-import { MIDTRANS_API_URL, midtransClientKey } from "@/config/apiUrl";
-import React, { useEffect, useState } from "react";
+import { midtransClientKey } from "@/config/apiUrl";
+import { useEffect, useState } from "react";
 
 const useSnap = () => {
-  const [snap, setSnap] = useState();
+  const [snap, setSnap] = useState(null);
   useEffect(() => {
-    const myMidtransClientKey = midtransClientKey;
+    const myMidtransClientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY;
+    console.log("my midtrans client key", myMidtransClientKey);
     const script = document.createElement("script");
     script.src = `https://app.sandbox.midtrans.com/snap/snap.js`;
     script.setAttribute("data-client-key", myMidtransClientKey);
     script.onload = () => {
-      setSnap(window.snap);
+      setSnap(window?.snap);
     };
     document.body.appendChild(script);
 
