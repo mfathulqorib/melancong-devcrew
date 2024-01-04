@@ -19,7 +19,7 @@ const page = async ({ params }) => {
   const { data } = await getDetailPost(destinationId);
   console.log(data);
   return (
-    <div>
+    <div className="pt-[50px] sm:pt-[60px]">
       <DetailDestination data={data} postId={destinationId} />
     </div>
   );

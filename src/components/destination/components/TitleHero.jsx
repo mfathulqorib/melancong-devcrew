@@ -41,7 +41,7 @@ const TitleHero = ({ title, totComment, totRate, city, address }) => {
         </div>
       </div>
 
-      <div className="flex   text-[14px]">
+      <div className="flex items-center text-[14px]">
         <div>
           <MapPin className="fill-slate-600 text-white " />
         </div>
