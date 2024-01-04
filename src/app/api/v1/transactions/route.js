@@ -2,6 +2,7 @@ import prisma from "@/utils/prisma";
 import { verify } from "jsonwebtoken";
 import { nanoid } from "nanoid";
 import { cookies } from "next/headers";
+import { NextResponse as res } from "next/server";
 
 export async function POST(req) {
   const { destinationId } = await req.json();
@@ -68,10 +69,12 @@ export async function POST(req) {
     const data = await response.json();
 
     if (response.status !== 201) {
-      return res.status(500).json({
-        status: "error",
-        message: "Failed to create transaction",
-      });
+      return res.json(
+        {
+          error: "Failed to create transaction",
+        },
+        { status: 500 },
+      );
     }
 
     const [createTransaction, transactionDestinations] =
