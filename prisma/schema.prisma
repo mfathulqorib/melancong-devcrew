@@ -82,7 +82,7 @@ model Post {
   postImage          PostImage[]
   rating             Rating[]
   comment            Comment[]
-  transactions_items TransactionsItem[]
+  transactionsItems TransactionsItem[]
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 }
@@ -139,26 +139,23 @@ model Transaction {
   paymentMethod      String?             @db.VarChar(110)
   createdAt          DateTime?           @default(now()) @db.Timestamp(0)
   updatedAt          DateTime?           @default(now()) @db.Timestamp(0)
-  transactions_items TransactionsItem[]
+  transactionsItems TransactionsItem[]
 
-  @@map("transactions")
+
 }
 
 model TransactionsItem {
-  id            String      @id @db.VarChar(110)
+  id            String      @id @default(uuid())
   transactionId String      @db.VarChar(110)
-  postId        String      @db.VarChar(110)
-  postName      String      @db.VarChar(255)
-  price         Int
-  quantity      Int
+  postId      String      
   createdAt     DateTime?   @default(now()) @db.Timestamp(0)
   updatedAt     DateTime?   @default(now()) @db.Timestamp(0)
-  transactions  Transaction @relation(fields: [transactionId], references: [id], onUpdate: Restrict, map: "transactions_items_ibfk_1")
-  post          Post        @relation(fields: [postId], references: [id], onUpdate: Restrict, map: "transactions_items_ibfk_2")
+  transactions  Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade ,onUpdate: Cascade)
+  post          Post        @relation(fields: [postId], references: [id], onDelete: Cascade ,onUpdate: Cascade)
 
-  @@index([postId], map: "postId")
-  @@index([transactionId], map: "transactionId")
-  @@map("transactions_items")
+  
+ 
+
 }
 
 enum transactions_status {

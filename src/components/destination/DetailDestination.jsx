@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@nextui-org/react";
+import { Card, useCheckbox } from "@nextui-org/react";
 import { useEffect } from "react";
 import CardMap from "./components/CardMap";
 import Description from "./components/Description";
@@ -12,10 +12,11 @@ import ImageGallery from "react-image-gallery";
 //import imageGallery CSS
 import { imageUrl } from "@/config/apiUrl";
 import "react-image-gallery/styles/css/image-gallery.css";
+import Link from "next/link";
+import useSnap from "./hooks/useSnap";
+import useCheckout from "./hooks/useCheckout";
 
 export const DetailDestination = ({ data, postId }) => {
-  console.log("data", data);
-
   const images = [];
 
   const destinateImages = () => {
@@ -33,6 +34,9 @@ export const DetailDestination = ({ data, postId }) => {
   useEffect(() => {
     destinateImages();
   }, []);
+
+  const { snapEmbed } = useSnap();
+  const { handleCheckout } = useCheckout();
   return (
     <div className="space-y-4 p-5">
       {/* <CoverImages /> */}
@@ -65,6 +69,12 @@ export const DetailDestination = ({ data, postId }) => {
       <Card className="rounded-none p-6 ">
         <Description desc={data?.desc} />
       </Card>
+
+      <button onClick={() => handleCheckout(postId)}>checkout</button>
+
+      <Link href={`/destination/transactions/checkout/${postId}`}>
+        <div>Book</div>
+      </Link>
     </div>
   );
 };

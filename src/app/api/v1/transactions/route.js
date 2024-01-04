@@ -39,6 +39,7 @@ export async function POST(req) {
       item_details: {
         id: findDestinate.id,
         price: findDestinate.budget,
+        quantity: 1,
         name: findDestinate.title,
       },
       customer_details: {
@@ -54,7 +55,7 @@ export async function POST(req) {
 
     // hit api midtrans
     const response = await fetch(
-      "https://app.sandbox.midtrans.com/snap/v1/transactions",
+      `${process.env.MIDTRANS_APP_URL}/snap/v1/transactions`,
       {
         method: "POST",
         headers: {
@@ -67,7 +68,7 @@ export async function POST(req) {
     );
 
     const data = await response.json();
-
+    console.log("data be", data);
     if (response.status !== 201) {
       return res.json(
         {
@@ -77,27 +78,25 @@ export async function POST(req) {
       );
     }
 
-    const [createTransaction, transactionDestinations] =
-      await prisma.$transaction([
-        prisma.transaction.create({
-          data: {
-            id: transactionId,
-            total: totalAmmount,
-            status: "PENDING_PAYMENT",
-            customerName: user.name,
-            customerEmail: user.email,
-            snapToken: data.token,
-            snapRedirectUrl: data.redirect_url,
+    const transactdestinate = await prisma.transaction.create({
+      data: {
+        id: transactionId,
+        total: totalAmmount,
+        status: "PENDING_PAYMENT",
+        customerName: user.name,
+        customerEmail: user.email,
+        snapToken: data.token,
+        snapRedirectUrl: data.redirect_url,
+        transactionsItems: {
+          create: {
+            postId: destinationId,
           },
-        }),
-
-        prisma.transactionsItem.create({
-          postId: findDestinate.id,
-          transactionId,
-        }),
-      ]);
+        },
+      },
+    });
 
     return res.json({
+      status: "success",
       data: {
         id: transactionId,
         status: "PENDING_PAYMENT",
