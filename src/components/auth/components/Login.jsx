@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Button, Input } from "@nextui-org/react";
 import { Logo } from "@/components/Logo";
@@ -18,9 +18,8 @@ export const Login = () => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
-        <Link href="/">
-          <Logo className="flex flex-col items-center justify-center" />
-        </Link>
+        <Logo className="flex flex-col items-center justify-center" />
+
         <div className="w-full rounded-lg bg-white shadow sm:max-w-md md:mt-2 xl:p-0 dark:border dark:border-gray-700 dark:bg-gray-800">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
             <h1 className="mb-10 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

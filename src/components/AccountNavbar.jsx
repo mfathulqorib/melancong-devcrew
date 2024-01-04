@@ -2,7 +2,6 @@
 
 import React, { useContext } from "react";
 import { HeaderLayout } from "@/components/HeaderLayout";
-import { Logo } from "@/components/Logo";
 import {
   DropdownItem,
   DropdownTrigger,
@@ -18,7 +17,6 @@ export const AccountNavbar = ({ name, username, slug, email }) => {
   const { handleLogout } = useLogout();
   return (
     <HeaderLayout>
-      <Logo />
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="text-sm sm:text-lg">
           Halo, <span className="font-semibold">{username}</span>

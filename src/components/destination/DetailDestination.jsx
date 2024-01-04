@@ -158,6 +158,7 @@ export const DetailDestination = ({ data, postId }) => {
     }
   };
   return (
+
     <div className="space-y-4 p-5">
       <div>
         {/* <CoverImages /> */}
@@ -192,6 +193,17 @@ export const DetailDestination = ({ data, postId }) => {
         </Card>
 
         <button onClick={handleBuy}>checkout</button>
+
+    <div className="space-y-4">
+      {/* <CoverImages /> */}
+      <ImageGallery items={images} showNav={false} autoPlay={true} />
+      <div className=" box-border p-5 shadow-md ">
+        <TitleHero
+          title={data?.title}
+          city={data?.city}
+          address={data?.address}
+        />
+
       </div>
 
       <div className="h-full w-full">
