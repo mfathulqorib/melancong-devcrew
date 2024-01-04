@@ -8,7 +8,7 @@ const useSnap = () => {
   useEffect(() => {
     const myMidtransClientKey = midtransClientKey;
     const script = document.createElement("script");
-    script.src = `${MIDTRANS_API_URL}/snap/snap.js`;
+    script.src = `https://app.sandbox.midtrans.com/snap/snap.js`;
     script.setAttribute("data-client-key", myMidtransClientKey);
     script.onload = () => {
       setSnap(window.snap);
