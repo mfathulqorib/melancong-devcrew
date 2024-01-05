@@ -1,12 +1,10 @@
 import React from "react";
 
-const Description = ({ desc }) => {
+const Description = ({ desc, title }) => {
   return (
     <div>
       <div>
-        <h3 className="text-[16px] font-semibold">
-          Informasi Umum Tari Kecak Uluwatu
-        </h3>
+        <h3 className="text-[16px] font-semibold">Informasi Umum {title}</h3>
       </div>
 
       <div className="14px ">
