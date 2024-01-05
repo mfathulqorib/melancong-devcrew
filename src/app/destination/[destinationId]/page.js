@@ -17,7 +17,7 @@ const page = async ({ params }) => {
   const { destinationId } = params;
   const { data } = await getDetailPost(destinationId);
   return (
-    <div className="pt-[50px] sm:pt-[60px]">
+    <div className="pt-[50px] sm:px-[40vh] sm:pt-[60px]">
       <DetailDestination data={data} postId={destinationId} />
     </div>
   );

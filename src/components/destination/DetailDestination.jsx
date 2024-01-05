@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@nextui-org/react";
+import { Button, Card, CardBody } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import CardMap from "./components/CardMap";
 import Description from "./components/Description";
@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import "react-image-gallery/styles/css/image-gallery.css";
 import useSnap from "./hooks/useSnap";
+import toast from "react-hot-toast";
 
 export const DetailDestination = ({ data, postId }) => {
   const images = [];
@@ -34,7 +35,7 @@ export const DetailDestination = ({ data, postId }) => {
 
   useEffect(() => {
     destinateImages();
-  }, []);
+  });
 
   // const { snapEmbed } = useSnap();
   // const [snapShow, setSnapShow] = useState(false);
@@ -128,6 +129,10 @@ export const DetailDestination = ({ data, postId }) => {
       });
 
       const response = await res.json();
+
+      if (response.error) {
+        return toast.error(response.error);
+      }
       console.log("transaction success :", response);
 
       const token = response.data.snapToken;
@@ -160,7 +165,14 @@ export const DetailDestination = ({ data, postId }) => {
   return (
     <div className="space-y-4 p-5">
       {/* <CoverImages /> */}
-      <ImageGallery items={images} showNav={false} autoPlay={true} />
+      <div className="    shadow-md ">
+        <ImageGallery
+          items={images}
+          showNav={false}
+          autoPlay={true}
+          showPlayButton={false}
+        />
+      </div>
       <div className=" box-border p-5 shadow-md ">
         <TitleHero
           title={data?.title}
@@ -187,10 +199,26 @@ export const DetailDestination = ({ data, postId }) => {
         />
       </Card>
       <Card className="rounded-none p-6 ">
-        <Description desc={data?.desc} />
+        <Description desc={data?.desc} title={data?.title} />
       </Card>
 
-      <button onClick={handleBuy}>checkout</button>
+      <Card>
+        <CardBody className="bg-sky-600/40 text-white ">
+          <div className="flex items-center justify-between px-5">
+            <div className="items-center">
+              <h1>Booking Sekarang</h1>
+              <h1 className="text-lg text-red-500">
+                Rp.{data?.budget?.toLocaleString("ID")}
+              </h1>
+            </div>
+            <div>
+              <Button color="primary" onClick={handleBuy}>
+                checkout
+              </Button>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };
