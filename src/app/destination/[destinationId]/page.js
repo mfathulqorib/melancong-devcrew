@@ -1,5 +1,4 @@
 import { DetailDestination } from "@/components/destination/DetailDestination";
-import React from "react";
 import { API_URL } from "@/utils/ApiUrl";
 
 const getDetailPost = async (postId) => {
@@ -17,7 +16,6 @@ const getDetailPost = async (postId) => {
 const page = async ({ params }) => {
   const { destinationId } = params;
   const { data } = await getDetailPost(destinationId);
-  console.log(data);
   return (
     <div className="pt-[50px] sm:pt-[60px]">
       <DetailDestination data={data} postId={destinationId} />
