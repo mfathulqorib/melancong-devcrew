@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import "react-image-gallery/styles/css/image-gallery.css";
 import useSnap from "./hooks/useSnap";
 import toast from "react-hot-toast";
+import { CommentAndReview } from "./components/CommentAndReview";
 
 export const DetailDestination = ({ data, postId }) => {
   const images = [];
@@ -200,6 +201,10 @@ export const DetailDestination = ({ data, postId }) => {
       </Card>
       <Card className="rounded-none p-6 ">
         <Description desc={data?.desc} title={data?.title} />
+      </Card>
+
+      <Card className="rounded-none p-6">
+        <CommentAndReview comments={data.comment} ratings={data.rating} />
       </Card>
 
       <Card>
