@@ -17,7 +17,15 @@ export const calculateStars = (rating) => {
   }
 
   if (rating % 2 !== 0 && rating !== 5) {
-    star.push(<HalfStar fill={"#FDB200"} />);
+    console.log("ok");
+    star.push(
+      <HalfStar
+        fill="#FDB200"
+        // stroke="#FDB200"
+        // className="size-3 sm:size-4"
+        // size={16}
+      />,
+    );
   }
 
   const emptyStars = 5 - star.length;
@@ -25,6 +33,6 @@ export const calculateStars = (rating) => {
   for (let i = 0; i < emptyStars; i++) {
     star.push(<Star stroke="#FDB200" className="size-3 sm:size-4" size={16} />);
   }
-
+  console.log(star);
   return star;
 };

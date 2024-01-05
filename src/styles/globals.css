@@ -20,7 +20,10 @@ html {
 }
 
 #half-star {
-  @apply sm:text-xs;
+  width: 12px;
+  @media (min-width: 640px) {
+    width: 16px;
+  }
 }
 
 .image-gallery {
