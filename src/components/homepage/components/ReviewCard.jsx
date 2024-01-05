@@ -36,6 +36,7 @@ export const ReviewCard = ({ item }) => {
             objectFit="cover"
             fill={true}
             loading="lazy"
+            className="transition-transform hover:scale-125"
           />
         </div>
         <div className="flex h-[55%] flex-col justify-between p-2 sm:h-[50%]">
