@@ -43,7 +43,7 @@ export const Provider = ({ children }) => {
         password: "password",
       })
       .then(() => {
-        router.push("/home");
+        router.push("/");
       })
       .catch((error) => {
         console.log(error);

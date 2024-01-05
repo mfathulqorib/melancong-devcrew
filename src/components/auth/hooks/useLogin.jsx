@@ -26,7 +26,7 @@ export const useLogin = () => {
       .then(() => {
         setLoading(false);
         toast.success("Login succesfully, redirecting...");
-        setTimeout(() => router.push("/home"), 500);
+        setTimeout(() => router.push("/"), 500);
       })
       .catch((error) => {
         setLoading(false);
