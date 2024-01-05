@@ -158,43 +158,7 @@ export const DetailDestination = ({ data, postId }) => {
     }
   };
   return (
-
     <div className="space-y-4 p-5">
-      <div>
-        {/* <CoverImages /> */}
-        <ImageGallery items={images} showNav={false} autoPlay={true} />
-        <div className=" box-border p-5 shadow-md ">
-          <TitleHero
-            title={data?.title}
-            city={data?.city}
-            address={data?.address}
-          />
-        </div>
-
-        <Card className="rounded-none p-6 ">
-          <InfoDestination
-            address={data?.address}
-            officeHours={data?.officeHours}
-            price={data?.budget?.toLocaleString("ID")}
-            title={data?.title}
-          />
-        </Card>
-
-        <Card className="rounded-none p-6 ">
-          <CardMap
-            latitude={data?.latitude}
-            longitude={data?.longitude}
-            address={data?.address}
-            title={data?.title}
-          />
-        </Card>
-        <Card className="rounded-none p-6 ">
-          <Description desc={data?.desc} />
-        </Card>
-
-        <button onClick={handleBuy}>checkout</button>
-
-    <div className="space-y-4">
       {/* <CoverImages /> */}
       <ImageGallery items={images} showNav={false} autoPlay={true} />
       <div className=" box-border p-5 shadow-md ">
@@ -203,12 +167,30 @@ export const DetailDestination = ({ data, postId }) => {
           city={data?.city}
           address={data?.address}
         />
-
       </div>
 
-      <div className="h-full w-full">
-        <div id="snap-container"></div>
-      </div>
+      <Card className="rounded-none p-6 ">
+        <InfoDestination
+          address={data?.address}
+          officeHours={data?.officeHours}
+          price={data?.budget?.toLocaleString("ID")}
+          title={data?.title}
+        />
+      </Card>
+
+      <Card className="rounded-none p-6 ">
+        <CardMap
+          latitude={data?.latitude}
+          longitude={data?.longitude}
+          address={data?.address}
+          title={data?.title}
+        />
+      </Card>
+      <Card className="rounded-none p-6 ">
+        <Description desc={data?.desc} />
+      </Card>
+
+      <button onClick={handleBuy}>checkout</button>
     </div>
   );
 };
