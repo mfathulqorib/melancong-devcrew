@@ -192,7 +192,8 @@ export async function GET(req) {
       });
       const averageRating =
         await prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" WHERE "postId" = ${postId} GROUP BY "postId"`;
-      detailPost["averageRating"] = averageRating[0].averageRating || 0;
+      detailPost["averageRating"] =
+        averageRating.length !== 0 ? averageRating[0].averageRating : 0;
 
       if (!detailPost) {
         return res.json({ error: `data ${postId} not found` }, { status: 404 });

@@ -214,8 +214,12 @@ export const DetailDestination = ({ data, postId }) => {
               </h1>
             </div>
             <div>
-              <Button color="primary" onClick={handleBuy}>
-                checkout
+              <Button
+                color="primary"
+                onClick={handleBuy}
+                className="font-semibold"
+              >
+                Checkout
               </Button>
             </div>
           </div>
