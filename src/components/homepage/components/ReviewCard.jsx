@@ -55,7 +55,7 @@ export const ReviewCard = ({ item }) => {
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-xs text-slate-400 sm:text-sm">
-              Estimasi budget
+              Harga tiket mulai dari...
             </div>
             <div className="flex justify-between">
               <div className="font-semibold text-[#f3706e] sm:text-lg">{`IDR ${numberWithCommas(
