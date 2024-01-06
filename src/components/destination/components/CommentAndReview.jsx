@@ -6,7 +6,7 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
   return (
     <div className="grid h-[290px] w-full grid-rows-5 gap-4">
       {/* Title */}
-      <div className="row-span-1">
+      <div className="row-span-1 text-xl font-semibold">
         <h1>Review</h1>
       </div>
 

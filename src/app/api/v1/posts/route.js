@@ -193,35 +193,7 @@ export async function GET(req) {
   };
 
   try {
-    // find Detail
-    // if (postId) {
-    //   const [detailPost, averageRatings] = await prisma.$transaction([
-    //     prisma.post.findUnique({
-    //       where: {
-    //         id: postId,
-    //       },
-    //       include: includeQuery,
-    //     }),
-    //     prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" GROUP BY "postId"`,
-    //   ]);
-
-    //   const averageRatingsMap = averageRatings.reduce((acc, rating) => {
-    //     acc[rating.postId] = rating.averageRating;
-    //     return acc;
-    //   }, {});
-
-    //   console.log(averageRatingsMap);
-
-    //   if (!detailPost) {
-    //     return res.json({ error: `data ${postId} not found` }, { status: 404 });
-    //   } else {
-    //     return res.json(
-    //       { data: detailPost, averageRatingsMap },
-    //       { status: 200 },
-    //     );
-    //   }
-    // }
-
+    // Detail Post
     if (postId) {
       const detailPost = await prisma.post.findUnique({
         where: {
