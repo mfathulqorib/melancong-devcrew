@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import "react-image-gallery/styles/css/image-gallery.css";
 import useSnap from "./hooks/useSnap";
 import toast from "react-hot-toast";
+import { CommentAndReview } from "./components/CommentAndReview";
 
 export const DetailDestination = ({ data, postId }) => {
   const images = [];
@@ -205,10 +206,18 @@ export const DetailDestination = ({ data, postId }) => {
         <Description desc={data?.desc} title={data?.title} />
       </Card>
 
-      <Card className="rounded-none px-6 py-2">
-        <CardBody>
-          <div className="flex items-center justify-between   ">
-            <div className="items-center font-semibold">
+      <Card className="rounded-none p-6">
+        <CommentAndReview
+          comments={data.comment}
+          ratings={data.rating}
+          averageRate={data.averageRating}
+        />
+      </Card>
+
+      <Card>
+        <CardBody className="bg-sky-600/40 text-white ">
+          <div className="flex items-center justify-between px-5">
+            <div className="items-center">
               <h1>Booking Sekarang</h1>
               <h1 className="text-lg text-[#f3706e]">
                 IDR {data?.budget?.toLocaleString("ID")}

@@ -168,21 +168,32 @@ export async function GET(req) {
       select: {
         id: true,
         rate: true,
-        userId: true,
+        user: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+        createdAt: true,
       },
     },
     comment: {
       select: {
         id: true,
         message: true,
-        userId: true,
+        user: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
         createdAt: true,
       },
     },
   };
 
   try {
-    // find Detail
+    // Detail Post
     if (postId) {
       const detailPost = await prisma.post.findUnique({
         where: {
