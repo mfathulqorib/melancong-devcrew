@@ -1,10 +1,11 @@
 import React from "react";
 import { CommentCard } from "./CommentCard";
 import { RatingCard } from "./RatingCard";
+import { CreateComment } from "./CreateComment";
 
 export const CommentAndReview = ({ comments, ratings, averageRate }) => {
   return (
-    <div className="grid h-[290px] w-full grid-rows-5 gap-4">
+    <div className="grid w-full grid-rows-5 gap-4">
       {/* Title */}
       <div className="row-span-1 text-xl font-semibold">
         <h1>Review</h1>
@@ -26,6 +27,7 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
             />
           );
         })}
+
         {/* rating Card */}
         {ratings.map(({ user, rate, createdAt }, index) => {
           return (
@@ -38,6 +40,9 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
           );
         })}
       </div>
+
+      {/* Create Comment */}
+      <CreateComment />
     </div>
   );
 };
