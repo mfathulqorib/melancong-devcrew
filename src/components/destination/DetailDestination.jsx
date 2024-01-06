@@ -166,7 +166,7 @@ export const DetailDestination = ({ data, postId }) => {
   return (
     <div className="mb-4 space-y-4 pt-2">
       {/* <CoverImages /> */}
-      <div className="pt-2 shadow-md ">
+      <div className="min-h-[530px] pt-2 shadow-md ">
         <ImageGallery
           items={images}
           showNav={false}
@@ -175,7 +175,7 @@ export const DetailDestination = ({ data, postId }) => {
           lazyLoad={true}
         />
       </div>
-      <div className=" box-border p-5 shadow-md ">
+      <div className="box-border min-h-[183px] p-5 shadow-md ">
         <TitleHero
           title={data?.title}
           city={data?.city}
@@ -185,7 +185,7 @@ export const DetailDestination = ({ data, postId }) => {
         />
       </div>
 
-      <Card className="rounded-none p-6 ">
+      <Card className="min-h-[225px] rounded-none p-6 ">
         <InfoDestination
           address={data?.address}
           officeHours={data?.officeHours}
@@ -194,7 +194,7 @@ export const DetailDestination = ({ data, postId }) => {
         />
       </Card>
 
-      <Card className="rounded-none p-6 ">
+      <Card className="min-h-[348px] rounded-none p-6 ">
         <CardMap
           latitude={data?.latitude}
           longitude={data?.longitude}
@@ -202,19 +202,19 @@ export const DetailDestination = ({ data, postId }) => {
           title={data?.title}
         />
       </Card>
-      <Card className="rounded-none p-6 ">
+      <Card className="min-h-[140px] rounded-none p-6 ">
         <Description desc={data?.desc} title={data?.title} />
       </Card>
 
       <Card className="rounded-none p-6">
         <CommentAndReview
-          comments={data.comment}
-          ratings={data.rating}
-          averageRate={data.averageRating}
+          comments={data?.comment}
+          ratings={data?.rating}
+          averageRate={data?.averageRating}
         />
       </Card>
 
-      <Card className="rounded-none p-3">
+      <Card id="checkout" className="rounded-none p-3">
         <CardBody>
           <div className="flex items-center justify-between   ">
             <div className="items-center font-semibold">

@@ -9,3 +9,9 @@ export const TOP_RATED_DESTINATION_HEADER_TEXT =
 export const TRENDING_DESTINATION_HEADER_TEXT = "🔥 Destinasi yang lagi tren";
 export const AFFORDABLE_DESTINATION_HEADER_TEXT =
   "💸 Destinasi hemat anti penat";
+
+// Reviews page
+export const KUMPULAN_REVIEW = "Kumpulan Review-mu";
+export const EMPTY_REVIEW_P1 = "Belum ada review darimu, nih";
+export const EMPTY_REVIEW_P2 =
+  "Jangan lupa berikan review untuk destinasi yang pernah kamu kunjungi, ya!";

@@ -4,7 +4,7 @@ import { RatingCard } from "./RatingCard";
 
 export const CommentAndReview = ({ comments, ratings, averageRate }) => {
   return (
-    <div className="grid h-[290px] w-full grid-rows-5 gap-4">
+    <div id="reviews" className="grid h-[290px] w-full grid-rows-5 gap-4">
       {/* Title */}
       <div className="row-span-1 text-xl font-semibold">
         <h1>Review</h1>
@@ -16,7 +16,7 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
       {/* Comment And Rating Card */}
       <div className="row-span-3 flex h-full w-full gap-4 overflow-auto py-2">
         {/* Comment Card */}
-        {comments.map(({ user, message, createdAt }, index) => {
+        {comments?.map(({ user, message, createdAt }, index) => {
           return (
             <CommentCard
               name={user.name}
@@ -27,7 +27,7 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
           );
         })}
         {/* rating Card */}
-        {ratings.map(({ user, rate, createdAt }, index) => {
+        {ratings?.map(({ user, rate, createdAt }, index) => {
           return (
             <CommentCard
               name={user.name}

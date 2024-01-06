@@ -47,7 +47,6 @@ export const DestinationList = ({ type }) => {
       <>
         <Header3 text={headerText} />
         <section className="mt-2 flex h-[290px] w-full gap-3 overflow-x-auto px-1 py-2 sm:h-[370px] sm:gap-5">
-          {/* <DestinationListLoader /> */}
           {isLoading ? (
             <DestinationListLoader />
           ) : (

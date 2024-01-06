@@ -1,9 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { NoReview } from "@/components/myaccount/components/icon/NoReview";
-import { travelService } from "@/services/TravelService";
-import { set } from "date-fns";
 import { CommentCard } from "@/components/destination/components/CommentCard";
+import {
+  EMPTY_REVIEW_P1,
+  EMPTY_REVIEW_P2,
+  KUMPULAN_REVIEW,
+} from "@/utils/constants";
 
 export const Reviews = ({ myReviews }) => {
   const EmptyState = () => {
@@ -13,13 +17,8 @@ export const Reviews = ({ myReviews }) => {
           <NoReview />
         </div>
         <div className="mt-[-20px] text-center sm:mt-0">
-          <p className=" text-lg font-semibold sm:text-xl">
-            Belum ada review darimu, nih
-          </p>
-          <p className="mt-2 text-base sm:text-lg">
-            Jangan lupa berikan review untuk destinasi yang pernah kamu
-            kunjungi, ya!
-          </p>
+          <p className=" text-lg font-semibold sm:text-xl">{EMPTY_REVIEW_P1}</p>
+          <p className="mt-2 text-base sm:text-lg">{EMPTY_REVIEW_P2}</p>
         </div>
       </>
     );
@@ -30,14 +29,16 @@ export const Reviews = ({ myReviews }) => {
       <div className="flex w-full justify-center">
         <div className="flex h-full w-fit flex-wrap items-center gap-4 py-2">
           {/* Comment Card */}
-          {myReviews.map(({ id, post, message, createdAt }) => {
+          {myReviews.map(({ id, post, message, createdAt, postId }) => {
             return (
-              <CommentCard
-                name={post.title}
-                message={message}
-                createdAt={createdAt}
-                key={id}
-              />
+              <Link href={`/destination/${postId}#reviews`}>
+                <CommentCard
+                  name={post.title}
+                  message={message}
+                  createdAt={createdAt}
+                  key={id}
+                />
+              </Link>
             );
           })}
         </div>
@@ -45,17 +46,9 @@ export const Reviews = ({ myReviews }) => {
     );
   };
 
-  // useEffect(() => {
-  //   getReviews();
-  // }, []);
-
-  useEffect(() => {
-    console.log(myReviews);
-  }, [myReviews]);
-
   return (
     <>
-      <h3 className="text-lg font-semibold sm:text-xl">Kumpulan Review-mu</h3>
+      <h3 className="text-lg font-semibold sm:text-xl">{KUMPULAN_REVIEW}</h3>
       {myReviews.length ? renderReviews() : <EmptyState />}
     </>
   );
