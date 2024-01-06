@@ -1,12 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Textarea, Button } from "@nextui-org/react";
+import { useComment } from "../hooks/useComment";
 
-export const CreateComment = () => {
+export const CreateComment = ({ postId }) => {
+  const { handleComment, commentHandle } = useComment();
+
   return (
-    <div className="mt-3  p-6">
-      <form action="" method="post" className="space-y-3">
+    <div className="mt-2  p-6">
+      <form method="post" className="space-y-3">
         <Textarea
-          name="comment"
+          name="message"
+          onChange={commentHandle}
           label="Komentar"
           variant="underlined"
           placeholder="Tulis Komentar..."
@@ -17,7 +22,13 @@ export const CreateComment = () => {
             input: "resize-y min-h-[40px] ",
           }}
         />
-        <Button color="primary" size="sm" className="font-medium" type="submit">
+        <Button
+          color="primary"
+          size="sm"
+          className="font-medium"
+          type="submit"
+          onSubmit={() => handleComment(postId)}
+        >
           Kirim
         </Button>
       </form>

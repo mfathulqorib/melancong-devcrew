@@ -208,6 +208,7 @@ export const DetailDestination = ({ data, postId }) => {
           comments={data.comment}
           ratings={data.rating}
           averageRate={data.averageRating}
+          postId={postId}
         />
       </Card>
 

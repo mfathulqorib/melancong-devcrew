@@ -3,7 +3,12 @@ import { CommentCard } from "./CommentCard";
 import { RatingCard } from "./RatingCard";
 import { CreateComment } from "./CreateComment";
 
-export const CommentAndReview = ({ comments, ratings, averageRate }) => {
+export const CommentAndReview = ({
+  comments,
+  ratings,
+  averageRate,
+  postId,
+}) => {
   return (
     <div className="grid w-full grid-rows-5 gap-4">
       {/* Title */}
@@ -42,7 +47,7 @@ export const CommentAndReview = ({ comments, ratings, averageRate }) => {
       </div>
 
       {/* Create Comment */}
-      <CreateComment />
+      <CreateComment postId={postId} />
     </div>
   );
 };
