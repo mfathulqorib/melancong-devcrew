@@ -164,7 +164,7 @@ export const DetailDestination = ({ data, postId }) => {
     }
   };
   return (
-    <div className="space-y-4 pt-2">
+    <div className="mb-4 space-y-4 pt-2">
       {/* <CoverImages /> */}
       <div className="pt-2 shadow-md ">
         <ImageGallery
@@ -214,10 +214,10 @@ export const DetailDestination = ({ data, postId }) => {
         />
       </Card>
 
-      <Card>
-        <CardBody className="bg-sky-600/40 text-white ">
-          <div className="flex items-center justify-between px-5">
-            <div className="items-center">
+      <Card className="rounded-none p-3">
+        <CardBody>
+          <div className="flex items-center justify-between   ">
+            <div className="items-center font-semibold">
               <h1>Booking Sekarang</h1>
               <h1 className="text-lg text-[#f3706e]">
                 IDR {data?.budget?.toLocaleString("ID")}
