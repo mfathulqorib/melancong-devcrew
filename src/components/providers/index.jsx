@@ -36,20 +36,6 @@ export const Provider = ({ children }) => {
       });
   };
 
-  const handleLogin = () => {
-    travelService
-      .post("/auth/login", {
-        email: "mfathulqorib97@gmail.com",
-        password: "password",
-      })
-      .then(() => {
-        router.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     initData();
   }, []);
@@ -58,7 +44,6 @@ export const Provider = ({ children }) => {
     <AppContext.Provider
       value={{
         setKeyword,
-        handleLogin,
         keyword,
         router,
         affordableDestination: Search(

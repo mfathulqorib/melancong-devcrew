@@ -171,6 +171,7 @@ export const DetailDestination = ({ data, postId }) => {
           showNav={false}
           autoPlay={true}
           showPlayButton={false}
+          lazyLoad={true}
         />
       </div>
       <div className=" box-border p-5 shadow-md ">
