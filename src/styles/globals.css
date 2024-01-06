@@ -33,10 +33,9 @@ html {
 }
 
 .image-gallery-slide img {
-  width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: cover;
+  width: auto;
+  height: 60vh;
   overflow: hidden;
   object-position: center center;
+  object-fit: contain;
 }
