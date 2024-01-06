@@ -12,10 +12,15 @@ import {
   TRENDING_DESTINATION,
   TRENDING_DESTINATION_HEADER_TEXT,
 } from "@/utils/constants";
+import { DestinationListLoader } from "./DestinationListLoader";
 
 export const DestinationList = ({ type }) => {
-  const { topRateDestination, trendingDestination, affordableDestination } =
-    useContext(AppContext);
+  const {
+    topRateDestination,
+    trendingDestination,
+    affordableDestination,
+    isLoading,
+  } = useContext(AppContext);
 
   const renderReviewCards = () => {
     let headerText = "";
@@ -42,9 +47,12 @@ export const DestinationList = ({ type }) => {
       <>
         <Header3 text={headerText} />
         <section className="mt-2 flex h-[290px] w-full gap-3 overflow-x-auto px-1 py-2 sm:h-[370px] sm:gap-5">
-          {destinations.map((item) => (
-            <ReviewCard item={item} key={item.id} />
-          ))}
+          {/* <DestinationListLoader /> */}
+          {isLoading ? (
+            <DestinationListLoader />
+          ) : (
+            destinations.map((item) => <ReviewCard item={item} key={item.id} />)
+          )}
         </section>
       </>
     );

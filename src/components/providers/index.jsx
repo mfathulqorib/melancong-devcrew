@@ -14,6 +14,7 @@ export const Provider = ({ children }) => {
   const [affordableDestination, setAffordableDestination] = useState([]);
   const [topRateDestination, setTopRateDestination] = useState([]);
   const [trendingDestination, setTrendingDestination] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const querySearch = ["city", "title"];
   const router = useRouter();
 
@@ -33,6 +34,9 @@ export const Provider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -53,8 +57,7 @@ export const Provider = ({ children }) => {
         ),
         topRateDestination: Search(topRateDestination, querySearch, keyword),
         trendingDestination: Search(trendingDestination, querySearch, keyword),
-        // name,
-        // username,
+        isLoading,
       }}
     >
       <NextUIProvider>
