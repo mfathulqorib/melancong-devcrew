@@ -2,10 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { calculateStars } from "@/utils/CalculateStar";
-import {
-  capitalizeEachWord,
-  numberWithCommas,
-} from "@/utils/sentenceTraversal";
+import { numberWithCommas } from "@/utils/sentenceTraversal";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -13,6 +10,9 @@ export const ReviewCard = ({ item }) => {
   const [totalStar, setTotalStar] = useState(
     calculateStars(item.averageRating),
   );
+  const renderStars = () => {
+    return totalStar.map((items, index) => <div key={index}>{items}</div>);
+  };
 
   useEffect(() => {
     setTotalStar(calculateStars(item.averageRating));
@@ -44,14 +44,8 @@ export const ReviewCard = ({ item }) => {
             <div className=" truncate text-sm font-semibold sm:text-base">
               {item.title}
             </div>
-            <div className="flex">
-              {totalStar.map((items, index) => {
-                return <div key={index}>{items}</div>;
-              })}
-            </div>
-            <p className="text-xs sm:text-sm">
-              {capitalizeEachWord(item.city)}
-            </p>
+            <div className="flex">{renderStars()}</div>
+            <p className="text-xs capitalize sm:text-sm">{item.city}</p>
           </div>
           <div className="flex flex-col gap-1">
             <div className="text-xs text-slate-400 sm:text-sm">
