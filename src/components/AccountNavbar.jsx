@@ -52,7 +52,7 @@ export const AccountNavbar = ({ name, username, slug, email }) => {
               key="beranda"
               textValue="beranda"
               onClick={() => {
-                router.push("/home");
+                router.push("/");
               }}
             >
               <div>Beranda</div>

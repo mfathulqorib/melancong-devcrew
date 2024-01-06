@@ -164,14 +164,15 @@ export const DetailDestination = ({ data, postId }) => {
     }
   };
   return (
-    <div className="space-y-4 p-5">
+    <div className="space-y-4 pt-2">
       {/* <CoverImages /> */}
-      <div className="    shadow-md ">
+      <div className="pt-2 shadow-md ">
         <ImageGallery
           items={images}
           showNav={false}
           autoPlay={true}
           showPlayButton={false}
+          lazyLoad={true}
         />
       </div>
       <div className=" box-border p-5 shadow-md ">
@@ -179,6 +180,8 @@ export const DetailDestination = ({ data, postId }) => {
           title={data?.title}
           city={data?.city}
           address={data?.address}
+          totRate={data?.averageRating}
+          totComment={data?.rating.length}
         />
       </div>
 
@@ -216,13 +219,17 @@ export const DetailDestination = ({ data, postId }) => {
           <div className="flex items-center justify-between px-5">
             <div className="items-center">
               <h1>Booking Sekarang</h1>
-              <h1 className="text-lg text-red-500">
-                Rp.{data?.budget?.toLocaleString("ID")}
+              <h1 className="text-lg text-[#f3706e]">
+                IDR {data?.budget?.toLocaleString("ID")}
               </h1>
             </div>
             <div>
-              <Button color="primary" onClick={handleBuy}>
-                checkout
+              <Button
+                color="primary"
+                onClick={handleBuy}
+                className="font-semibold"
+              >
+                Checkout
               </Button>
             </div>
           </div>
