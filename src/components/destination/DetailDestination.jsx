@@ -31,9 +31,8 @@ export const DetailDestination = ({ data, postId, userId }) => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     destinateImages();
-  }, []);
+  });
 
   // const { snapEmbed } = useSnap();
   // const [snapShow, setSnapShow] = useState(false);
@@ -80,6 +79,7 @@ export const DetailDestination = ({ data, postId, userId }) => {
 
   // mode old
   useEffect(() => {
+    window.scrollTo(0, 0);
     //change this to the script source you want to load, for example this is snap.js sandbox env
     const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
     //change this according to your client-key
