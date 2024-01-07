@@ -26,8 +26,8 @@ export const Reviews = ({ myReviews }) => {
 
   const renderReviews = () => {
     return (
-      <div className="flex w-full justify-center">
-        <div className="flex h-full w-fit flex-wrap items-center gap-4 py-2">
+      <div className="">
+        <div className="flex h-[360px] w-full flex-col gap-4 overflow-auto py-2">
           {/* Comment Card */}
           {myReviews.map(({ id, post, message, createdAt, postId }) => {
             return (
