@@ -32,6 +32,27 @@ export const useComment = () => {
       });
   };
 
+  const handleEditComment = (commentId, message, rating) => {
+    setLoading(true);
+    travelService
+      .put(`/comment?commentId=${commentId}`, {
+        message,
+        rating,
+      })
+      .then((response) => {
+        setLoading(false);
+        if (response.status === 200) {
+          toast.success(response.data.message, toastStyle);
+          router.refresh();
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(`${error.response.data.error}`, toastStyle);
+        console.log(error);
+      });
+  };
+
   const handleDeleteComment = (commentId) => {
     travelService
       .delete(`/comment?commentId=${commentId}`)
@@ -49,5 +70,5 @@ export const useComment = () => {
       });
   };
 
-  return { handleComment, handleDeleteComment, isLoading };
+  return { handleComment, handleDeleteComment, handleEditComment, isLoading };
 };

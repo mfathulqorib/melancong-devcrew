@@ -7,8 +7,7 @@ import { TimeAgo } from "@/utils/timeAgo";
 import { Trash2 } from "lucide-react";
 import { calculateStars } from "@/utils/CalculateStar";
 
-export const CommentCard = ({ item, userId }) => {
-  console.log(item);
+export const CommentCard = ({ item, userId, setSelectedComment }) => {
   const {
     id,
     user: { name } = {},
@@ -22,6 +21,10 @@ export const CommentCard = ({ item, userId }) => {
   const renderStars = () => {
     return totalStar.map((items, index) => <div key={index}>{items}</div>);
   };
+  const handleOnClickEdit = () => {
+    setSelectedComment(item);
+  };
+
   useEffect(() => {
     setTotalStar(calculateStars(rating));
   }, [rating]);
@@ -48,26 +51,20 @@ export const CommentCard = ({ item, userId }) => {
           <div>
             <p className="text-sm font-normal text-slate-800">{message}</p>
           </div>
-          {/* ? (
-            <div>
-              <p className="text-sm font-normal text-slate-800">{message}</p>
-            </div>
-          ) : (
-            <div>
-              <p className="text-xl text-slate-400">
-                <span className="text-3xl font-semibold text-slate-800">
-                  {rating}
-                </span>
-                /5
-              </p>
-            </div>
-          ) */}
         </div>
         {userId && userId === item.user.id ? (
-          <Trash2
-            className="cursor-pointer text-red-500 hover:text-red-400"
-            onClick={() => handleDeleteComment(id)}
-          />
+          <div className="flex  gap-x-4 ">
+            <p
+              className="cursor-pointer font-medium text-[#0066ff] hover:text-[#6ea5f9]"
+              onClick={() => handleOnClickEdit()}
+            >
+              Edit
+            </p>
+            <Trash2
+              className="cursor-pointer text-red-500 hover:text-red-400"
+              onClick={() => handleDeleteComment(id)}
+            />
+          </div>
         ) : null}
       </div>
     </div>

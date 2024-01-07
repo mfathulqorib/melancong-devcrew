@@ -5,7 +5,9 @@ import { cookies } from "next/headers";
 
 const getDetailPost = async (postId) => {
   try {
-    const res = await fetch(`${API_URL}/posts?id=${postId}`);
+    const res = await fetch(`${API_URL}/posts?id=${postId}`, {
+      cache: "no-store",
+    });
     const response = await res.json();
     return response;
   } catch (error) {

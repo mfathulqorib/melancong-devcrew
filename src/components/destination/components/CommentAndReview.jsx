@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CommentCard } from "./CommentCard";
 import { RatingCard } from "./RatingCard";
 import { CreateComment } from "./CreateComment";
@@ -11,6 +11,12 @@ import {
 } from "@/utils/constants";
 
 export const CommentAndReview = ({ comments, averageRate, postId, userId }) => {
+  const [selectedComment, setSelectedComment] = useState({});
+
+  useEffect(() => {
+    console.log(selectedComment);
+  }, [selectedComment]);
+
   const EmptyState = () => {
     return (
       <>
@@ -34,7 +40,14 @@ export const CommentAndReview = ({ comments, averageRate, postId, userId }) => {
       <div className="flex h-[300px] w-full flex-col gap-4 overflow-auto p-2">
         {/* Comment Card */}
         {comments?.map((item) => {
-          return <CommentCard item={item} userId={userId} key={item.id} />;
+          return (
+            <CommentCard
+              item={item}
+              userId={userId}
+              key={item.id}
+              setSelectedComment={setSelectedComment}
+            />
+          );
         })}
       </div>
     );
@@ -46,14 +59,17 @@ export const CommentAndReview = ({ comments, averageRate, postId, userId }) => {
       <div className=" text-xl font-semibold">
         <h1>Review</h1>
       </div>
-
       {/* Rating Card */}
       <RatingCard rate={averageRate} />
-
       {/* Comment And Rating Card */}
       {!comments.length ? <EmptyState /> : renderReviews()}
       {/* Create Comment */}
-      <CreateComment postId={postId} userId={userId} />
+      <CreateComment
+        postId={postId}
+        userId={userId}
+        selectedComment={selectedComment}
+        setSelectedComment={setSelectedComment}
+      />
     </div>
   );
 };

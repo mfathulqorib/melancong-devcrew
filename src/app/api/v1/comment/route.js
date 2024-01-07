@@ -69,6 +69,57 @@ export async function GET(req) {
   }
 }
 
+export async function PUT(req) {
+  const cookieStorage = cookies();
+  const token = cookieStorage.get("token")?.value;
+  const user = verify(token, process.env.JWT_SECRET);
+  // const commentId = req.params.commentId;
+  const searchParams = req.nextUrl.searchParams;
+  const commentId = searchParams.get("commentId");
+
+  console.log(commentId);
+
+  try {
+    const { message, rating } = await req.json();
+    const existingComment = await prisma.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+
+    // check if comment exist
+    if (!existingComment) {
+      return res.json({ error: `Comment not found` }, { status: 404 });
+    }
+
+    // check if the user is the owner
+    if (existingComment.userId !== user.id) {
+      return res.json({ error: `Cannot update this comment` }, { status: 401 });
+    }
+
+    // update comment
+    const updatedComment = await prisma.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        message,
+        rating,
+      },
+    });
+    return res.json(
+      { message: `Edit comment success`, data: updatedComment },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log(error);
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
+  }
+}
+
 export async function DELETE(req) {
   const cookieStorage = cookies();
   const token = cookieStorage.get("token")?.value;
