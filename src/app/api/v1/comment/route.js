@@ -22,11 +22,44 @@ export async function POST(req) {
         postId,
         message,
         userId: user.id,
-      }
+      },
     });
     return res.json({ message: "success give comment" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return res.json({ error: `Something went wrong. Please try again later, ${error}` }, { status: 500 });
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const userId = searchParams.get("userId");
+
+  try {
+    const query = {
+      post: {
+        select: {
+          title: true,
+          rating: true,
+        },
+      },
+    };
+
+    const detailComment = await prisma.comment.findMany({
+      where: {
+        userId: userId,
+      },
+      include: query,
+    });
+    return res.json({ data: detailComment }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return res.json(
+      { error: `Something went wrong. Please try again later, ${error}` },
+      { status: 500 },
+    );
   }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export const PerformaReview = () => {
+export const PerformaReview = ({ totalReviews }) => {
   return (
     <>
       <div className="mt-1 rounded-lg p-3 text-center shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_2px_-2px_2px_0px] sm:mt-3 ">
@@ -18,7 +18,7 @@ export const PerformaReview = () => {
             />
           </div>
           <div className="text-center">
-            <p className="text-sm font-semibold">0</p>
+            <p className="text-sm font-semibold">{totalReviews}</p>
             <p className="text-xs">Total Review</p>
           </div>
         </div>

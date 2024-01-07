@@ -20,9 +20,9 @@ export const CommentAndReview = ({
       <RatingCard rate={averageRate} />
 
       {/* Comment And Rating Card */}
-      <div className="row-span-3 flex h-full w-full gap-4 overflow-x-scroll">
+      <div className="row-span-3 flex h-full w-full gap-4 overflow-auto py-2">
         {/* Comment Card */}
-        {comments.map(({ user, message, createdAt }, index) => {
+        {comments?.map(({ user, message, createdAt }, index) => {
           return (
             <CommentCard
               name={user.name}
@@ -34,7 +34,7 @@ export const CommentAndReview = ({
         })}
 
         {/* rating Card */}
-        {ratings.map(({ user, rate, createdAt }, index) => {
+        {ratings?.map(({ user, rate, createdAt }, index) => {
           return (
             <CommentCard
               name={user.name}
