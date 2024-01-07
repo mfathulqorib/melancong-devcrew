@@ -49,18 +49,5 @@ export const useComment = () => {
       });
   };
 
-  const handleRating = (postId, rate) => {
-    travelService
-      .post("/rating", {
-        postId,
-        rate,
-      })
-      .then((response) => {
-        console.log(response.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response.data.error);
-      });
-  };
-  return { handleComment, handleDeleteComment, handleRating, isLoading };
+  return { handleComment, handleDeleteComment, isLoading };
 };

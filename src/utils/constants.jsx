@@ -15,3 +15,7 @@ export const KUMPULAN_REVIEW = "Kumpulan Review-mu";
 export const EMPTY_REVIEW_P1 = "Belum ada review darimu, nih";
 export const EMPTY_REVIEW_P2 =
   "Jangan lupa berikan review untuk destinasi yang pernah kamu kunjungi, ya!";
+export const EMPTY_REVIEW_DESTINATION_P1 =
+  "Belum ada review untuk desitinasi ini";
+export const EMPTY_REVIEW_DESTINATION_P2 =
+  "Berikan review jika destinasi ini pernah kamu kunjungi, ya!";

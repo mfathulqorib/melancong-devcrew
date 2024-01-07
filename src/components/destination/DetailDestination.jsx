@@ -100,21 +100,6 @@ export const DetailDestination = ({ data, postId, userId }) => {
     try {
       e.preventDefault();
 
-      // const config = {
-      //   headers: {
-      //     'Content-type': 'application/json',
-      //   },
-      // };
-
-      // const data = {
-      //   destinationId: postId,
-
-      // };
-
-      // const body = JSON.stringify(data);
-
-      // const response = await API.post('/transaction', body, config);
-
       const res = await fetch(`${API_URL}/transactions`, {
         method: "POST",
         headers: {
@@ -177,7 +162,7 @@ export const DetailDestination = ({ data, postId, userId }) => {
           city={data?.city}
           address={data?.address}
           totRate={data?.averageRating}
-          totComment={data?.rating.length}
+          totComment={data?.comment.length}
         />
       </div>
 

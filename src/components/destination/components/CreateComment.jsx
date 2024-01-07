@@ -5,7 +5,7 @@ import { useComment } from "../hooks/useComment";
 import StarRating from "./StarRating";
 
 export const CreateComment = ({ postId, userId }) => {
-  const { handleRating, handleComment, isLoading } = useComment();
+  const { handleComment, isLoading } = useComment();
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
   const handleRate = (value) => {
@@ -22,13 +22,12 @@ export const CreateComment = ({ postId, userId }) => {
 
   const handleReview = () => {
     handleComment(postId, message, rating);
-    handleRating(postId, rating);
   };
 
   return (
     <>
       <div className="mt=-2 space-y-3 p-6">
-        <label for="comment" className="font-semibold">
+        <label htmlFor="comment" className="font-semibold">
           Masukkan ulasan kamu
         </label>
         <div className="mb-4 flex">

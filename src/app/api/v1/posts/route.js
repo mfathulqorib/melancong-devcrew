@@ -204,7 +204,7 @@ export async function GET(req) {
         include: includeQuery,
       });
       const averageRating =
-        await prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" WHERE "postId" = ${postId} GROUP BY "postId"`;
+        await prisma.$queryRaw`SELECT "postId", AVG("rating") as "averageRating" FROM "Comment" WHERE "postId" = ${postId} GROUP BY "postId"`;
       detailPost["averageRating"] =
         averageRating.length !== 0 ? averageRating[0].averageRating : 0;
 
@@ -228,7 +228,7 @@ export async function GET(req) {
       }),
 
       prisma.post.count({ where: querySearch }),
-      prisma.$queryRaw`SELECT "postId", AVG("rate") as "averageRating" FROM "Rating" GROUP BY "postId"`,
+      prisma.$queryRaw`SELECT "postId", AVG("rating") as "averageRating" FROM "Comment" GROUP BY "postId"`,
     ]);
     const averageRatingsMap = averageRatings.reduce((acc, rating) => {
       acc[rating.postId] = rating.averageRating;
