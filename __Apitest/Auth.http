@@ -30,3 +30,6 @@ POST http://localhost:3000/api/v1/auth/logout
 PATCH    http://localhost:3000/api/v1/auth/confirmation?user=387a07d0-c0e2-4902-92e7-57e3fe161177&token=ecdfb0c9bfd2003fc8541876a6ce2f40
 
 
+### Delete comment
+
+DELETE http://localhost:3000/api/v1/comment?commentId=a166284a-3e65-4b41-9eb3-af02e22205d3

@@ -24,13 +24,14 @@ export const CommentAndReview = ({
       {/* Comment And Rating Card */}
       <div className="flex h-[300px] w-full flex-col gap-4 overflow-auto p-2">
         {/* Comment Card */}
-        {comments?.map(({ user, message, createdAt }, index) => {
+        {comments?.map(({ id, user, message, createdAt }) => {
           return (
             <CommentCard
+              commentId={id}
               name={user.name}
               message={message}
               createdAt={createdAt}
-              key={index}
+              key={id}
             />
           );
         })}

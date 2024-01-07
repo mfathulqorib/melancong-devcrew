@@ -1,10 +1,22 @@
-import Date from "@/utils/Date";
-import { Card } from "@nextui-org/react";
-import React from "react";
+"use client";
 
-export const CommentCard = ({ name, message, createdAt, rating }) => {
+import Date from "@/utils/Date";
+import React from "react";
+import { useComment } from "../hooks/useComment";
+import { TimeAgo } from "@/utils/timeAgo";
+import { Trash2 } from "lucide-react";
+import { Button } from "@nextui-org/react";
+
+export const CommentCard = ({
+  commentId,
+  name,
+  message,
+  createdAt,
+  rating,
+}) => {
+  const { handleDeleteComment } = useComment();
   return (
-    <div className="w-full rounded-lg p-3 shadow-md">
+    <div className="flex min-h-[140px] w-full flex-col justify-between rounded-lg p-3 shadow-md">
       {/* Name and Date Section */}
       <div className="flex justify-between">
         <div className="max-w-[80%] ">
@@ -12,27 +24,34 @@ export const CommentCard = ({ name, message, createdAt, rating }) => {
             {name}
           </h3>
         </div>
-        <div className="text-sm font-medium text-slate-400">
+        <div className="flex flex-col items-end text-sm font-medium text-slate-400">
+          <TimeAgo createdAt={createdAt} />
           <Date dateString={createdAt} />
         </div>
       </div>
 
       {/* Comment and rating section */}
-      <div className="mt-5">
-        {message ? (
-          <div>
-            <p className="text-sm font-normal text-slate-800">{message}</p>
-          </div>
-        ) : (
-          <div>
-            <p className="text-xl text-slate-400">
-              <span className="text-3xl font-semibold text-slate-800">
-                {rating}
-              </span>
-              /5
-            </p>
-          </div>
-        )}
+      <div className="flex items-end justify-between">
+        <div className="mt-5 min-h-[50px]">
+          {message ? (
+            <div>
+              <p className="text-sm font-normal text-slate-800">{message}</p>
+            </div>
+          ) : (
+            <div>
+              <p className="text-xl text-slate-400">
+                <span className="text-3xl font-semibold text-slate-800">
+                  {rating}
+                </span>
+                /5
+              </p>
+            </div>
+          )}
+        </div>
+        <Trash2
+          className="cursor-pointer text-red-500 hover:text-red-400"
+          onClick={() => handleDeleteComment(commentId)}
+        />
       </div>
     </div>
   );

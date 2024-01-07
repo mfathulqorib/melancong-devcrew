@@ -4,43 +4,50 @@ import { API_URL } from "@/utils/ApiUrl";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { travelService } from "@/services/TravelService";
+import { toastStyle } from "@/utils/toastStyle";
 
 export const useComment = () => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleComment = async (postId, message) => {
-    // e.preventDefault();
+  const handleComment = (postId, message) => {
     setLoading(true);
 
-    const formData = new FormData();
-
-    // const postId = e.target.postId.value;
-    // const message = e.target.message.value;
-
-    formData.append("postId", postId);
-    formData.append("message", message);
-
-    try {
-      // console.log(
-      //   JSON.stringify({
-      //     message,
-      //     postId,
-      //   }),
-      // );
-      await fetch(`${API_URL}/comment`, {
-        method: "POST",
-        body: JSON.stringify({
-          message,
-          postId,
-        }),
+    travelService
+      .post("/comment", {
+        message,
+        postId,
+      })
+      .then((response) => {
+        setLoading(false);
+        if (response.status === 200) {
+          toast.success(response.data.message, toastStyle);
+          router.refresh();
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(`${error.response.data.error}`, toastStyle);
+        console.log(error);
       });
-      toast.success("Komentar sukses terkirim");
-      setLoading(false);
-      setTimeout(() => router.refresh(), 1000);
-    } catch (error) {
-      console.log(error);
-    }
   };
-  return { handleComment, isLoading };
+
+  const handleDeleteComment = (commentId) => {
+    travelService
+      .delete(`/comment?commentId=${commentId}`)
+      .then((response) => {
+        setLoading(false);
+        if (response.status === 200) {
+          toast.success(response.data.message, toastStyle);
+          router.refresh();
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error(`${error.response.data.error}`, toastStyle);
+        console.log(error);
+      });
+  };
+  return { handleComment, handleDeleteComment, isLoading };
 };
