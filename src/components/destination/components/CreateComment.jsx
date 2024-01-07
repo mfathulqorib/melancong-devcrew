@@ -27,8 +27,11 @@ export const CreateComment = ({ postId, userId }) => {
 
   return (
     <>
-      <div className="mt-2 space-y-3 p-6">
-        <div className="flex">
+      <div className="mt=-2 space-y-3 p-6">
+        <label for="comment" className="font-semibold">
+          Masukkan ulasan kamu
+        </label>
+        <div className="mb-4 flex">
           <StarRating
             onRate={handleRate}
             rating={rating}
@@ -36,9 +39,9 @@ export const CreateComment = ({ postId, userId }) => {
           />
         </div>
         <Textarea
+          id="comment"
           value={message}
           name="message"
-          label="Komentar"
           variant="underlined"
           placeholder="Tulis Komentar..."
           disableAnimation

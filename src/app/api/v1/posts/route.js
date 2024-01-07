@@ -181,6 +181,7 @@ export async function GET(req) {
       select: {
         id: true,
         message: true,
+        rating: true,
         user: {
           select: {
             name: true,

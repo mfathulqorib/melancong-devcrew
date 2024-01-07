@@ -1,12 +1,14 @@
 "use client";
 
 import Date from "@/utils/Date";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useComment } from "../hooks/useComment";
 import { TimeAgo } from "@/utils/timeAgo";
 import { Trash2 } from "lucide-react";
+import { calculateStars } from "@/utils/CalculateStar";
 
 export const CommentCard = ({ item, userId }) => {
+  console.log(item);
   const {
     id,
     user: { name } = {},
@@ -16,6 +18,14 @@ export const CommentCard = ({ item, userId }) => {
     rating,
   } = item;
   const { handleDeleteComment } = useComment();
+  const [totalStar, setTotalStar] = useState(calculateStars(rating));
+  const renderStars = () => {
+    return totalStar.map((items, index) => <div key={index}>{items}</div>);
+  };
+  useEffect(() => {
+    setTotalStar(calculateStars(rating));
+  }, [rating]);
+
   return (
     <div className="flex min-h-[140px] w-full flex-col justify-between rounded-lg p-3 shadow-md">
       {/* Name and Date Section */}
@@ -24,6 +34,7 @@ export const CommentCard = ({ item, userId }) => {
           <h3 className="truncate text-ellipsis text-base font-semibold capitalize text-black">
             {name || title}
           </h3>
+          <div className="flex">{renderStars()}</div>
         </div>
         <div className="flex flex-col items-end text-sm font-medium text-slate-400">
           <TimeAgo createdAt={createdAt} />

@@ -11,7 +11,7 @@ export const calculateStars = (rating) => {
     );
   }
 
-  if (rating % 2 !== 0 && rating !== 5) {
+  if (rating % 1 !== 0 && rating !== 5) {
     star.push(<HalfStar fill="#FDB200" />);
   }
 
@@ -22,3 +22,38 @@ export const calculateStars = (rating) => {
   }
   return star;
 };
+
+// export const calculateStars = (rating) => {
+//   const star = [];
+//   const fullStars = Math.floor(rating);
+//   const remainingStars = 5 - fullStars;
+
+//   for (let i = 0; i < fullStars; i++) {
+//     star.push(
+//       <Star
+//         fill="#FDB200"
+//         stroke="#FDB200"
+//         className="size-3 sm:size-4"
+//         size={16}
+//         key={`full-star-${i}`}
+//       />,
+//     );
+//   }
+
+//   if (rating % 1 !== 0 && rating !== 5) {
+//     star.push(<HalfStar fill={"#FDB200"} key="half-star" />);
+//   }
+
+//   for (let i = 0; i < remainingStars; i++) {
+//     star.push(
+//       <Star
+//         stroke="#FDB200"
+//         className="size-3 sm:size-4"
+//         size={16}
+//         key={`empty-star-${i}`}
+//       />,
+//     );
+//   }
+
+//   return star;
+// };
