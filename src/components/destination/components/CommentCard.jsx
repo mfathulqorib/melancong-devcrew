@@ -15,6 +15,7 @@ export const CommentCard = ({ item, userId, setSelectedComment }) => {
     message,
     createdAt,
     rating,
+    updatedAt,
   } = item;
   const { handleDeleteComment } = useComment();
   const [totalStar, setTotalStar] = useState(calculateStars(rating));
@@ -24,6 +25,7 @@ export const CommentCard = ({ item, userId, setSelectedComment }) => {
   const handleOnClickEdit = () => {
     setSelectedComment(item);
   };
+  const isEdited = createdAt !== updatedAt;
 
   useEffect(() => {
     setTotalStar(calculateStars(rating));
@@ -49,13 +51,18 @@ export const CommentCard = ({ item, userId, setSelectedComment }) => {
       <div className="flex items-end justify-between">
         <div className="mt-5 min-h-[50px]">
           <div>
-            <p className="text-sm font-normal text-slate-800">{message}</p>
+            <p className="text-sm font-normal text-slate-800">
+              {message}
+              {isEdited ? (
+                <span className="text-xs text-slate-500">{" (edited)"}</span>
+              ) : null}
+            </p>
           </div>
         </div>
         {userId && userId === item.user.id ? (
           <div className="flex  gap-x-4 ">
             <p
-              className="cursor-pointer font-medium text-[#0066ff] hover:text-[#6ea5f9]"
+              className=" cursor-pointer text-end font-medium text-[#0066ff] hover:text-[#6ea5f9]"
               onClick={() => handleOnClickEdit()}
             >
               Edit

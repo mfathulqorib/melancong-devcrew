@@ -189,6 +189,7 @@ export async function GET(req) {
           },
         },
         createdAt: true,
+        updatedAt: true,
       },
       orderBy: { createdAt: "desc" },
     },
