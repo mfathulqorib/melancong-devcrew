@@ -1,6 +1,5 @@
 "use client";
 
-import { API_URL } from "@/utils/ApiUrl";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -13,7 +12,6 @@ export const useComment = () => {
 
   const handleComment = (postId, message) => {
     setLoading(true);
-
     travelService
       .post("/comment", {
         message,

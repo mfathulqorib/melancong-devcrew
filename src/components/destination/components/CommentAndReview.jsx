@@ -5,13 +5,7 @@ import { CommentCard } from "./CommentCard";
 import { RatingCard } from "./RatingCard";
 import { CreateComment } from "./CreateComment";
 
-export const CommentAndReview = ({
-  comments,
-  ratings,
-  averageRate,
-  postId,
-  userId,
-}) => {
+export const CommentAndReview = ({ comments, averageRate, postId, userId }) => {
   return (
     <div className="flex w-full flex-col gap-4">
       {/* Title */}
@@ -43,7 +37,7 @@ export const CommentAndReview = ({
       </div>
 
       {/* Create Comment */}
-      <CreateComment postId={postId} />
+      <CreateComment postId={postId} userId={userId} />
     </div>
   );
 };
