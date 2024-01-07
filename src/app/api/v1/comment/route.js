@@ -52,6 +52,7 @@ export async function GET(req) {
       where: {
         userId: userId,
       },
+      orderBy: { createdAt: "desc" },
       include: query,
     });
     return res.json({ data: detailComment }, { status: 200 });
