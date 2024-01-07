@@ -31,8 +31,9 @@ export const DetailDestination = ({ data, postId, userId }) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     destinateImages();
-  });
+  }, []);
 
   // const { snapEmbed } = useSnap();
   // const [snapShow, setSnapShow] = useState(false);

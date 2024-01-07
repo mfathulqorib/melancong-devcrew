@@ -1,18 +1,22 @@
+"use client";
 import React from "react";
 import { Lobster as FontLogo } from "next/font/google";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const fontLogo = FontLogo({ subsets: ["latin"], weight: ["400"] });
 
 export const Logo = () => {
+  const router = useRouter();
   return (
-    <Link href="/">
-      <div
-        className={`${fontLogo.className} text-xl text-[#0066ff] sm:text-3xl`}
-      >
-        Melancong
-      </div>
-    </Link>
+    <div
+      onClick={() => {
+        router.push("/");
+      }}
+      className={`${fontLogo.className} cursor-pointer text-xl text-[#0066ff] sm:text-3xl`}
+    >
+      Melancong
+    </div>
   );
 };
 

@@ -8,8 +8,10 @@ import {
   EMPTY_REVIEW_P2,
   KUMPULAN_REVIEW,
 } from "@/utils/constants";
+import { useRouter } from "next/navigation";
 
 export const Reviews = ({ myReviews }) => {
+  const router = useRouter();
   const EmptyState = () => {
     return (
       <>
@@ -31,9 +33,15 @@ export const Reviews = ({ myReviews }) => {
           {/* Comment Card */}
           {myReviews.map((item) => {
             return (
-              <Link href={`/destination/${item.postId}`} key={item.id}>
+              <div
+                className="cursor-pointer"
+                key={item.id}
+                onClick={() => {
+                  router.push(`/destination/${item.postId}`);
+                }}
+              >
                 <CommentCard item={item} />
-              </Link>
+              </div>
             );
           })}
         </div>

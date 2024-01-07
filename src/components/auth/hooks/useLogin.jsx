@@ -1,5 +1,6 @@
 "use client";
 import { travelService } from "@/services/TravelService";
+import { toastStyle } from "@/utils/toastStyle";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -23,14 +24,16 @@ export const useLogin = () => {
     setLoading(true);
     travelService
       .post("/auth/login", loginData)
-      .then(() => {
+      .then((response) => {
         setLoading(false);
-        toast.success("Login succesfully, redirecting...");
-        setTimeout(() => router.push("/"), 500);
+        if (response.status === 200) {
+          toast.success(response.data.message, toastStyle);
+          router.push("/");
+        }
       })
       .catch((error) => {
         setLoading(false);
-        toast.error(`${error.response.data.error}`);
+        toast.error(`${error?.response?.data?.error}`);
       });
   };
 

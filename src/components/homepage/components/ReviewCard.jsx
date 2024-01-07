@@ -5,8 +5,10 @@ import { calculateStars } from "@/utils/CalculateStar";
 import { numberWithCommas } from "@/utils/sentenceTraversal";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const ReviewCard = ({ item }) => {
+  const router = useRouter();
   const [totalStar, setTotalStar] = useState(
     calculateStars(item.averageRating),
   );
@@ -19,7 +21,12 @@ export const ReviewCard = ({ item }) => {
   }, [item.averageRating]);
 
   return (
-    <Link href={`/destination/${item.id}`}>
+    <div
+      onClick={() => {
+        router.push(`/destination/${item.id}`);
+      }}
+      className="cursor-pointer"
+    >
       <div className="h-full max-h-full min-w-[200px] rounded-lg bg-white shadow-md shadow-black/30 sm:min-w-[300px] ">
         <div className="relative h-[45%] overflow-hidden rounded-t-lg sm:h-[50%]">
           <Image
@@ -63,6 +70,6 @@ export const ReviewCard = ({ item }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };

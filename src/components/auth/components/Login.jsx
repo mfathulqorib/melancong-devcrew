@@ -7,12 +7,14 @@ import { Logo } from "@/components/Logo";
 import { EyeSlashFilledIcon } from "@/components/auth/components/icon/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/auth/components/icon/EyeFilledIcon";
 import { useLogin } from "../hooks/useLogin";
+import { useRouter } from "next/navigation";
 
 export const Login = () => {
   const { handleLogin, loginData, isLoading, handleChange } = useLogin();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const { email, password } = loginData;
+  const router = useRouter();
   const placement = "outside";
 
   return (
@@ -72,11 +74,12 @@ export const Login = () => {
             </Button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Belum Punya Akun?{" "}
-              <Link href="/register">
-                <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                  Yuk Buat Akun
-                </span>
-              </Link>
+              <span
+                onClick={() => router.push("/register")}
+                className="cursor-pointer font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >
+                Yuk Buat Akun
+              </span>
             </p>
           </div>
         </div>

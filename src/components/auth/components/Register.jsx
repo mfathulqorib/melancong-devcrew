@@ -7,13 +7,17 @@ import Link from "next/link";
 import { EyeSlashFilledIcon } from "@/components/auth/components/icon/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/components/auth/components/icon/EyeFilledIcon";
 import { useRegister } from "../hooks/useRegister";
+import { useRouter } from "next/navigation";
 
 export const Register = () => {
   const placement = "outside";
-  const [isVisible, setIsVisible] = useState(false);
-  const [isVisible2, setIsVisible2] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const toggleVisibility2 = () => setIsVisible2(!isVisible2);
+  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const [isVisibleConfirmPass, setIsVisibleConfirmPass] = useState(false);
+  const toggleVisibilityPassword = () =>
+    setIsVisiblePassword(!isVisiblePassword);
+  const toggleVisibilityConfirmPass = () =>
+    setIsVisibleConfirmPass(!isVisibleConfirmPass);
+  const router = useRouter();
   const { handleRegister, isLoading } = useRegister();
 
   return (
@@ -56,7 +60,7 @@ export const Register = () => {
                   placeholder="Seorang pecinta traveler..."
                 />
                 <Input
-                  type={isVisible ? "text" : "password"}
+                  type={isVisiblePassword ? "text" : "password"}
                   label="Password"
                   name="password"
                   labelPlacement={placement}
@@ -65,12 +69,12 @@ export const Register = () => {
                     <button
                       className="focus:outline-none"
                       type="button"
-                      onMouseDown={toggleVisibility}
-                      onMouseUp={toggleVisibility}
-                      onTouchStart={toggleVisibility}
-                      onTouchEnd={toggleVisibility}
+                      onMouseDown={toggleVisibilityPassword}
+                      onMouseUp={toggleVisibilityPassword}
+                      onTouchStart={toggleVisibilityPassword}
+                      onTouchEnd={toggleVisibilityPassword}
                     >
-                      {isVisible ? (
+                      {isVisiblePassword ? (
                         <EyeSlashFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
                       ) : (
                         <EyeFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
@@ -79,7 +83,7 @@ export const Register = () => {
                   }
                 />
                 <Input
-                  type={isVisible2 ? "text" : "password"}
+                  type={isVisibleConfirmPass ? "text" : "password"}
                   label="Konfirmasi Password"
                   name="confirmPassword"
                   labelPlacement={placement}
@@ -88,12 +92,12 @@ export const Register = () => {
                     <button
                       className="focus:outline-none"
                       type="button"
-                      onMouseDown={toggleVisibility2}
-                      onMouseUp={toggleVisibility2}
-                      onTouchStart={toggleVisibility2}
-                      onTouchEnd={toggleVisibility2}
+                      onMouseDown={toggleVisibilityConfirmPass}
+                      onMouseUp={toggleVisibilityConfirmPass}
+                      onTouchStart={toggleVisibilityConfirmPass}
+                      onTouchEnd={toggleVisibilityConfirmPass}
                     >
-                      {isVisible2 ? (
+                      {isVisibleConfirmPass ? (
                         <EyeSlashFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
                       ) : (
                         <EyeFilledIcon className="pointer-events-none text-lg text-default-400 sm:text-xl" />
@@ -113,11 +117,12 @@ export const Register = () => {
             </form>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Sudah Punya Akun?{" "}
-              <Link href="/login">
-                <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                  Yuk Masuk
-                </span>
-              </Link>
+              <span
+                onClick={() => router.push("/login")}
+                className="cursor-pointer font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >
+                Yuk Masuk
+              </span>
             </p>
           </div>
         </div>

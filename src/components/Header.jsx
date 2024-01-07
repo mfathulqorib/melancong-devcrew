@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import { HeaderLayout } from "./HeaderLayout";
 import Link from "next/link";
-
 import { AccountNavbar } from "@/components/AccountNavbar";
 import { SECRET_KEY } from "@/utils/ApiUrl";
 import { jwtExtract } from "@/utils/jwtExtract";
