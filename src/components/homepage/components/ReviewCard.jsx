@@ -39,9 +39,9 @@ export const ReviewCard = ({ item }) => {
             className="transition-transform hover:scale-125"
           />
         </div>
-        <div className="flex h-[55%] flex-col justify-between p-2 sm:h-[50%]">
+        <div className="flex h-[55%] max-w-[200px] flex-col justify-between p-2 sm:h-[50%] sm:max-w-[300px]">
           <div className="flex flex-col gap-1 sm:gap-2">
-            <div className=" truncate text-sm font-semibold sm:text-base">
+            <div className=" truncate text-ellipsis text-sm font-semibold sm:text-base">
               {item.title}
             </div>
             <div className="flex">{renderStars()}</div>

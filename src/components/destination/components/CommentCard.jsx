@@ -4,11 +4,13 @@ import React from "react";
 
 export const CommentCard = ({ name, message, createdAt, rating }) => {
   return (
-    <Card className="col-span-1 h-full min-w-72 max-w-72 p-3 shadow-md">
+    <div className="w-full rounded-lg p-3 shadow-md">
       {/* Name and Date Section */}
       <div className="flex justify-between">
-        <div className="text-base font-semibold capitalize text-black">
-          <h3>{name}</h3>
+        <div className="max-w-[80%] ">
+          <h3 className="truncate text-ellipsis text-base font-semibold capitalize text-black">
+            {name}
+          </h3>
         </div>
         <div className="text-sm font-medium text-slate-400">
           <Date dateString={createdAt} />
@@ -32,6 +34,6 @@ export const CommentCard = ({ name, message, createdAt, rating }) => {
           </div>
         )}
       </div>
-    </Card>
+    </div>
   );
 };

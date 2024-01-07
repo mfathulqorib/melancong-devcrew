@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { CommentCard } from "./CommentCard";
 import { RatingCard } from "./RatingCard";
@@ -10,9 +12,9 @@ export const CommentAndReview = ({
   postId,
 }) => {
   return (
-    <div className="grid w-full grid-rows-5 gap-4">
+    <div className="flex w-full flex-col gap-4">
       {/* Title */}
-      <div className="row-span-1 text-xl font-semibold">
+      <div className=" text-xl font-semibold">
         <h1>Review</h1>
       </div>
 
@@ -20,7 +22,7 @@ export const CommentAndReview = ({
       <RatingCard rate={averageRate} />
 
       {/* Comment And Rating Card */}
-      <div className="row-span-3 flex h-full w-full gap-4 overflow-auto py-2">
+      <div className="flex h-[300px] w-full flex-col gap-4 overflow-auto p-2">
         {/* Comment Card */}
         {comments?.map(({ user, message, createdAt }, index) => {
           return (
@@ -34,7 +36,7 @@ export const CommentAndReview = ({
         })}
 
         {/* rating Card */}
-        {ratings?.map(({ user, rate, createdAt }, index) => {
+        {/* {ratings?.map(({ user, rate, createdAt }, index) => {
           return (
             <CommentCard
               name={user.name}
@@ -43,7 +45,7 @@ export const CommentAndReview = ({
               key={index}
             />
           );
-        })}
+        })} */}
       </div>
 
       {/* Create Comment */}

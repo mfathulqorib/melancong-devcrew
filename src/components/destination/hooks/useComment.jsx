@@ -9,19 +9,25 @@ export const useComment = () => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleComment = async (e) => {
-    e.preventDefault();
+  const handleComment = async (postId, message) => {
+    // e.preventDefault();
     setLoading(true);
 
     const formData = new FormData();
 
-    const postId = e.target.postId.value;
-    const message = e.target.message.value;
+    // const postId = e.target.postId.value;
+    // const message = e.target.message.value;
 
     formData.append("postId", postId);
     formData.append("message", message);
 
     try {
+      // console.log(
+      //   JSON.stringify({
+      //     message,
+      //     postId,
+      //   }),
+      // );
       await fetch(`${API_URL}/comment`, {
         method: "POST",
         body: JSON.stringify({
