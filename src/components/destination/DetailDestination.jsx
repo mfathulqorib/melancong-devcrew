@@ -208,9 +208,10 @@ export const DetailDestination = ({ data, postId }) => {
 
       <Card className="rounded-none p-6">
         <CommentAndReview
-          comments={data?.comment}
-          ratings={data?.rating}
-          averageRate={data?.averageRating}
+          comments={data.comment}
+          ratings={data.rating}
+          averageRate={data.averageRating}
+          postId={postId}
         />
       </Card>
 
