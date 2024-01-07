@@ -10,6 +10,7 @@ export const CommentAndReview = ({
   ratings,
   averageRate,
   postId,
+  userId,
 }) => {
   return (
     <div className="flex w-full flex-col gap-4">
@@ -24,16 +25,8 @@ export const CommentAndReview = ({
       {/* Comment And Rating Card */}
       <div className="flex h-[300px] w-full flex-col gap-4 overflow-auto p-2">
         {/* Comment Card */}
-        {comments?.map(({ id, user, message, createdAt }) => {
-          return (
-            <CommentCard
-              commentId={id}
-              name={user.name}
-              message={message}
-              createdAt={createdAt}
-              key={id}
-            />
-          );
+        {comments?.map((item) => {
+          return <CommentCard item={item} userId={userId} key={item.id} />;
         })}
 
         {/* rating Card */}

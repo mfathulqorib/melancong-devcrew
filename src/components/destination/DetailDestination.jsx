@@ -8,18 +8,14 @@ import InfoDestination from "./components/InfoDestination";
 import TitleHero from "./components/TitleHero";
 //import imageGallery
 import ImageGallery from "react-image-gallery";
-
 //import imageGallery CSS
 import { imageUrl } from "@/config/apiUrl";
 import { API_URL } from "@/utils/ApiUrl";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import "react-image-gallery/styles/css/image-gallery.css";
-import useSnap from "./hooks/useSnap";
 import toast from "react-hot-toast";
 import { CommentAndReview } from "./components/CommentAndReview";
 
-export const DetailDestination = ({ data, postId }) => {
+export const DetailDestination = ({ data, postId, userId }) => {
   const images = [];
 
   const destinateImages = () => {
@@ -212,6 +208,7 @@ export const DetailDestination = ({ data, postId }) => {
           ratings={data.rating}
           averageRate={data.averageRating}
           postId={postId}
+          userId={userId}
         />
       </Card>
 

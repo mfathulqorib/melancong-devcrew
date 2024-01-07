@@ -27,17 +27,12 @@ export const Reviews = ({ myReviews }) => {
   const renderReviews = () => {
     return (
       <div className="">
-        <div className="flex h-[360px] w-full flex-col gap-4 overflow-auto py-2">
+        <div className="flex h-[360px] w-full flex-col gap-4 overflow-auto p-2">
           {/* Comment Card */}
-          {myReviews.map(({ id, post, message, createdAt, postId }) => {
+          {myReviews.map((item) => {
             return (
-              <Link href={`/destination/${postId}#reviews`}>
-                <CommentCard
-                  name={post.title}
-                  message={message}
-                  createdAt={createdAt}
-                  key={id}
-                />
+              <Link href={`/destination/${item.postId}#reviews`} key={item.id}>
+                <CommentCard item={item} />
               </Link>
             );
           })}
@@ -48,7 +43,9 @@ export const Reviews = ({ myReviews }) => {
 
   return (
     <>
-      <h3 className="text-lg font-semibold sm:text-xl">{KUMPULAN_REVIEW}</h3>
+      <h3 className="mb-2 text-lg font-semibold sm:text-xl">
+        {KUMPULAN_REVIEW}
+      </h3>
       {myReviews.length ? renderReviews() : <EmptyState />}
     </>
   );

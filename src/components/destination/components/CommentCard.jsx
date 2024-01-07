@@ -5,15 +5,16 @@ import React from "react";
 import { useComment } from "../hooks/useComment";
 import { TimeAgo } from "@/utils/timeAgo";
 import { Trash2 } from "lucide-react";
-import { Button } from "@nextui-org/react";
 
-export const CommentCard = ({
-  commentId,
-  name,
-  message,
-  createdAt,
-  rating,
-}) => {
+export const CommentCard = ({ item, userId }) => {
+  const {
+    id,
+    user: { name } = {},
+    post: { title } = {},
+    message,
+    createdAt,
+    rating,
+  } = item;
   const { handleDeleteComment } = useComment();
   return (
     <div className="flex min-h-[140px] w-full flex-col justify-between rounded-lg p-3 shadow-md">
@@ -21,7 +22,7 @@ export const CommentCard = ({
       <div className="flex justify-between">
         <div className="max-w-[80%] ">
           <h3 className="truncate text-ellipsis text-base font-semibold capitalize text-black">
-            {name}
+            {name || title}
           </h3>
         </div>
         <div className="flex flex-col items-end text-sm font-medium text-slate-400">
@@ -48,10 +49,12 @@ export const CommentCard = ({
             </div>
           )}
         </div>
-        <Trash2
-          className="cursor-pointer text-red-500 hover:text-red-400"
-          onClick={() => handleDeleteComment(commentId)}
-        />
+        {userId && userId === item.user.id ? (
+          <Trash2
+            className="cursor-pointer text-red-500 hover:text-red-400"
+            onClick={() => handleDeleteComment(id)}
+          />
+        ) : null}
       </div>
     </div>
   );
