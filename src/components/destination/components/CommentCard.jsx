@@ -30,7 +30,7 @@ export const CommentCard = ({ item, userId }) => {
     <div className="flex min-h-[140px] w-full flex-col justify-between rounded-lg p-3 shadow-md">
       {/* Name and Date Section */}
       <div className="flex justify-between">
-        <div className="max-w-[80%] ">
+        <div className="max-w-[80%] space-y-1">
           <h3 className="truncate text-ellipsis text-base font-semibold capitalize text-black">
             {name || title}
           </h3>
