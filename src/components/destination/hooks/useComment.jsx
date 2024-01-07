@@ -10,12 +10,13 @@ export const useComment = () => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleComment = (postId, message) => {
+  const handleComment = (postId, message, rating) => {
     setLoading(true);
     travelService
       .post("/comment", {
         message,
         postId,
+        rating,
       })
       .then((response) => {
         setLoading(false);
@@ -47,5 +48,19 @@ export const useComment = () => {
         console.log(error);
       });
   };
-  return { handleComment, handleDeleteComment, isLoading };
+
+  const handleRating = (postId, rate) => {
+    travelService
+      .post("/rating", {
+        postId,
+        rate,
+      })
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error.response.data.error);
+      });
+  };
+  return { handleComment, handleDeleteComment, handleRating, isLoading };
 };

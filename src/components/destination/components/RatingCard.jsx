@@ -13,7 +13,7 @@ export const RatingCard = ({ rate }) => {
   return (
     <div className="row-span-1 flex gap-4 text-center">
       <div className="text-3xl font-semibold text-black">
-        {rate}
+        {Number(rate).toFixed(1)}
         <span className="text-lg text-slate-400">/5</span>
       </div>
       <div>

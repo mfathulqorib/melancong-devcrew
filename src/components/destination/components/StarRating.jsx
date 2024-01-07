@@ -1,9 +1,7 @@
 import { Star } from "lucide-react";
 import React, { useState } from "react";
 
-export default function StarRating({ onRate }) {
-  const [rating, setRating] = useState(0);
-
+export default function StarRating({ onRate, rating, setRating }) {
   const handleStarClick = (value) => {
     const newRating = value === rating ? 0 : value;
     setRating(newRating);

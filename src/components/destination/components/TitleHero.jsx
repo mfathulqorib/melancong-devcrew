@@ -16,7 +16,7 @@ const TitleHero = ({ title, totComment, totRate, city, address }) => {
           <div className="flex flex-col items-center">
             <div className="flex items-center space-x-1">
               <Star className="fill-slate-800 " size={"15px"} />
-              <div>{totRate}</div>
+              <div>{Number(totRate).toFixed(1)}</div>
             </div>
             <div>
               <h1 className="py-1 underline">{totComment} Review</h1>

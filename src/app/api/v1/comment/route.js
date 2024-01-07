@@ -9,7 +9,7 @@ export async function POST(req) {
   const token = cookieStorage.get("token")?.value;
   const user = verify(token, process.env.JWT_SECRET);
   // get data from json
-  const { postId, message } = await req.json();
+  const { postId, message, rating } = await req.json();
 
   try {
     const postDetail = await prisma.post.findUnique({ where: { id: postId } });
@@ -21,10 +21,14 @@ export async function POST(req) {
       data: {
         postId,
         message,
+        rating,
         userId: user.id,
       },
     });
-    return res.json({ message: "success give comment" }, { status: 200 });
+    return res.json(
+      { message: "success give comment", data: comment },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
     return res.json(

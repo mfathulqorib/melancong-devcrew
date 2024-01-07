@@ -34,7 +34,10 @@ export const CommentCard = ({ item, userId }) => {
       {/* Comment and rating section */}
       <div className="flex items-end justify-between">
         <div className="mt-5 min-h-[50px]">
-          {message ? (
+          <div>
+            <p className="text-sm font-normal text-slate-800">{message}</p>
+          </div>
+          {/* ? (
             <div>
               <p className="text-sm font-normal text-slate-800">{message}</p>
             </div>
@@ -47,7 +50,7 @@ export const CommentCard = ({ item, userId }) => {
                 /5
               </p>
             </div>
-          )}
+          ) */}
         </div>
         {userId && userId === item.user.id ? (
           <Trash2

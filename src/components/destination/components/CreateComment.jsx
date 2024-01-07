@@ -5,24 +5,35 @@ import { useComment } from "../hooks/useComment";
 import StarRating from "./StarRating";
 
 export const CreateComment = ({ postId, userId }) => {
-  const { handleComment, isLoading } = useComment();
+  const { handleRating, handleComment, isLoading } = useComment();
   const [message, setMessage] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(0);
   const handleRate = (value) => {
     setRating(value);
     console.log(`Rated: ${rating}`);
   };
 
   useEffect(() => {
-    setMessage("");
-    console.log(isLoading);
+    if (!isLoading) {
+      setMessage("");
+      setRating(0);
+    }
   }, [isLoading]);
+
+  const handleReview = () => {
+    handleComment(postId, message, rating);
+    handleRating(postId, rating);
+  };
 
   return (
     <>
       <div className="mt-2 space-y-3 p-6">
         <div className="flex">
-          <StarRating onRate={handleRate} />
+          <StarRating
+            onRate={handleRate}
+            rating={rating}
+            setRating={setRating}
+          />
         </div>
         <Textarea
           value={message}
@@ -42,13 +53,11 @@ export const CreateComment = ({ postId, userId }) => {
         />
         <Button
           color="primary"
-          size="sm"
+          size="md"
           className="font-medium"
-          type="submit"
           isLoading={isLoading}
-          onClick={() => {
-            handleComment(postId, message);
-          }}
+          isDisabled={!message.length}
+          onClick={() => handleReview()}
         >
           Kirim
         </Button>

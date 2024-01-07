@@ -31,7 +31,7 @@ export const Reviews = ({ myReviews }) => {
           {/* Comment Card */}
           {myReviews.map((item) => {
             return (
-              <Link href={`/destination/${item.postId}#reviews`} key={item.id}>
+              <Link href={`/destination/${item.postId}`} key={item.id}>
                 <CommentCard item={item} />
               </Link>
             );

@@ -66,25 +66,25 @@ model Category {
 }
 
 model Post {
-  id                 String             @id @default(uuid())
-  title              String
-  desc               String             @db.Text
-  budget             Int
-  slug               String
-  officeHours        String
-  latitude           String
-  longitude          String
-  address            String
-  city               String
-  userId             String
-  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postCategory       PostCategory[]
-  postImage          PostImage[]
-  rating             Rating[]
-  comment            Comment[]
+  id                String             @id @default(uuid())
+  title             String
+  desc              String             @db.Text
+  budget            Int
+  slug              String
+  officeHours       String
+  latitude          String
+  longitude         String
+  address           String
+  city              String
+  userId            String
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postCategory      PostCategory[]
+  postImage         PostImage[]
+  rating            Rating[]
+  comment           Comment[]
   transactionsItems TransactionsItem[]
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model PostCategory {
@@ -120,6 +120,7 @@ model Rating {
 model Comment {
   id        String   @id @default(uuid())
   message   String   @db.Text
+  rating    Int      @default(0)
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    String
@@ -129,33 +130,27 @@ model Comment {
 }
 
 model Transaction {
-  id                 String              @id @db.VarChar(110)
-  total              Int
-  status             transactions_status
-  customerName       String              @db.VarChar(255)
-  customerEmail      String              @db.VarChar(255)
-  snapToken          String?             @db.VarChar(255)
-  snapRedirectUrl    String?             @db.VarChar(255)
-  paymentMethod      String?             @db.VarChar(110)
-  createdAt          DateTime?           @default(now()) @db.Timestamp(0)
-  updatedAt          DateTime?           @default(now()) @db.Timestamp(0)
+  id                String              @id @db.VarChar(110)
+  total             Int
+  status            transactions_status
+  customerName      String              @db.VarChar(255)
+  customerEmail     String              @db.VarChar(255)
+  snapToken         String?             @db.VarChar(255)
+  snapRedirectUrl   String?             @db.VarChar(255)
+  paymentMethod     String?             @db.VarChar(110)
+  createdAt         DateTime?           @default(now()) @db.Timestamp(0)
+  updatedAt         DateTime?           @default(now()) @db.Timestamp(0)
   transactionsItems TransactionsItem[]
-
-
 }
 
 model TransactionsItem {
   id            String      @id @default(uuid())
   transactionId String      @db.VarChar(110)
-  postId      String      
+  postId        String
   createdAt     DateTime?   @default(now()) @db.Timestamp(0)
   updatedAt     DateTime?   @default(now()) @db.Timestamp(0)
-  transactions  Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade ,onUpdate: Cascade)
-  post          Post        @relation(fields: [postId], references: [id], onDelete: Cascade ,onUpdate: Cascade)
-
-  
- 
-
+  transactions  Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post          Post        @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum transactions_status {
